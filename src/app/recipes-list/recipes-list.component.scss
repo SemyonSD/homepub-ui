@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+
+  :host-context(tui-root._mobile) & {
+    flex-direction: column;
+  }
+}
+
+.menu {
+  position: relative;
+  top: -40%;
+  right: -62%;
+}
+
+.button {
+  box-sizing: border-box;
+  background: var(--tui-base-03);
+  height: 400px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+

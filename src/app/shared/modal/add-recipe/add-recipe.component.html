@@ -1,0 +1,49 @@
+<form class="tui-form"
+      [formGroup]="recipeForm"
+>
+  <div class="tui-text_h3 tui-form__header">
+    Add a new recipe
+  </div>
+  <tui-input [tuiTextfieldLabelOutside]="true"
+             formControlName="title"
+             class="tui-form__row">
+    Type a title
+    <input tuiTextfield
+           type="text"
+    />
+  </tui-input>
+  <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('title')" [error]="error"></tui-error>
+
+  <tui-input-tag [tuiTextfieldLabelOutside]="true"
+                 formControlName="ingredients"
+                 class="tui-form__row">
+    Type an ingredients
+  </tui-input-tag>
+  <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('ingredients')" [error]="error"></tui-error>
+
+  <tui-text-area
+    formControlName="description"
+    [expandable]="true"
+    class="tui-form__row"
+  >
+    Type a description
+  </tui-text-area>
+  <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('description')" [error]="error"></tui-error>
+
+  <div class="tui-form__buttons">
+    <button tuiButton
+            type="button"
+            *ngIf="mode === MODE.NEW"
+            (click)="addRecipe()"
+    >
+      Add
+    </button>
+    <button tuiButton
+            type="button"
+            *ngIf="mode === MODE.EDIT"
+            (click)="editRecipe()"
+    >
+      Save
+    </button>
+  </div>
+</form>

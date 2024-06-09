@@ -1,0 +1,13 @@
+<div class="container">
+  <app-recipe-card *ngFor="let recipe of recipes$ | async; trackBy: identify"
+                   [recipe]="recipe"
+                   @tuiFadeIn>
+  </app-recipe-card>
+  <button tuiAction
+          type="button"
+          class="button"
+          routerLink="new">
+    <tui-svg [src]="'tuiIconPlusSquareLarge'"></tui-svg>
+  </button>
+</div>
+<router-outlet></router-outlet>

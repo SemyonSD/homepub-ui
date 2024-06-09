@@ -1,0 +1,46 @@
+<tui-block-status [card]="true"
+                  class="card">
+  <button tuiIconButton
+          type="button"
+          class="delete-button"
+          [icon]="isSubMenuOpen ? 'tuiIconCloseLarge' : 'tuiIconMoreHorizontalLarge'"
+          appearance="flat"
+          (click)="toggleSubMenu()">
+  </button>
+  <div *ngIf="isSubMenuOpen"
+       class="sub-menu">
+    <button tuiButton
+            appearance="outline"
+    (click)="editRecipe()">
+      Edit
+    </button>
+    <button tuiButton
+            appearance="outline"
+    (click)="deleteRecipe()">
+      Delete
+    </button>
+  </div>
+  <div class="tui-text_h3">
+    {{recipe?.title}}
+  </div>
+  <tui-expand [expanded]="!expanded" class="expandable">
+    <div class="list">
+      <tui-tag *ngFor="let ingredient of recipe?.ingredients"
+               [value]="ingredient">
+      </tui-tag>
+    </div>
+  </tui-expand>
+  <tui-expand [expanded]="expanded">
+    <ng-template tuiExpandContent>
+      <p>{{recipe?.description}}</p>
+    </ng-template>
+  </tui-expand>
+  <button
+    tuiButton
+    type="button"
+    appearance="outline"
+    (click)="toggle()"
+  >
+    {{expanded ? 'Show ingredients' : 'Show recipe'}}
+  </button>
+</tui-block-status>

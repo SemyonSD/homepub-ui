@@ -1,4 +1,4 @@
-@import "src/assets/styles/variables/variables";
+@import "../assets/styles/variables";
 
 .header {
   background-image: $gradient-bg-dark;
@@ -23,6 +23,6 @@
 }
 
 .icon {
-  width: 4rem;
-  height: 4rem;
+  width: 6rem;
+  height: 6rem;
 }

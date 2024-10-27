@@ -1,5 +1,6 @@
 <form class="tui-form"
       [formGroup]="recipeForm"
+      (keydown.control.enter)="submit()"
 >
   <div class="tui-text_h3 tui-form__header">
     Add a new recipe
@@ -7,20 +8,90 @@
   <tui-input [tuiTextfieldLabelOutside]="true"
              formControlName="title"
              class="tui-form__row">
-    Type a title
+    Type a drink name
     <input tuiTextfield
            type="text"
     />
   </tui-input>
   <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('title')" [error]="error"></tui-error>
 
-  <tui-input-tag [tuiTextfieldLabelOutside]="true"
-                 formControlName="ingredients"
-                 class="tui-form__row">
-    Type an ingredients
-  </tui-input-tag>
-  <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('ingredients')" [error]="error"></tui-error>
-
+  <div formArrayName="ingredients"
+       class="tui-form__row"
+  >
+    <div tuiGroup
+         class="group"
+         style="flex: 1"
+         *ngFor="let ingredientGroup of ingredientsFormArray.controls; let idx = index"
+         [formGroupName]="idx">
+      <div>
+        <tui-input
+          formControlName="name"
+          class="tui-group__inherit-item"
+        >
+          Ingredient
+          <input
+            placeholder="Ingredient"
+            tuiTextfield
+          />
+        </tui-input>
+        <tui-error
+          formControlName="name"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+      </div>
+      <div>
+        <tui-input-number
+          formControlName="measurementValue"
+          class="tui-group__inherit-item"
+        >
+          Value
+          <input
+            placeholder="Value"
+            tuiTextfield
+          />
+        </tui-input-number>
+        <tui-error
+          formControlName="measurementValue"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+      </div>
+      <div>
+        <tui-select
+          tuiTextfieldSize="l"
+          formControlName="measurementName"
+          class="tui-group__inherit-item"
+          [valueContent]="dropdownValues"
+        >
+          Measure
+          <tui-data-list-wrapper
+            *tuiDataList
+            [itemContent]="dropdownValues"
+            [items]="measurementValues"
+          ></tui-data-list-wrapper>
+        </tui-select>
+        <tui-error
+          formControlName="measurementName"
+          [error]="[] | tuiFieldError | async"
+        ></tui-error>
+      </div>
+      <button tuiIconButton
+              [size]="'l'"
+              [icon]="'tuiIconMinusCircle'"
+              appearance="outline"
+              class="tui-group__auto-width-item"
+              type="button"
+              (click)="removeIngredientRow(idx)"
+      ></button>
+    </div>
+  </div>
+  <button tuiButton
+          [size]="'xs'"
+          [icon]="'tuiIconPlusCircle'"
+          appearance="outline"
+          class="add-row-button"
+          type="button"
+          (click)="addIngredientRow()"
+          >Add row</button>
   <tui-text-area
     formControlName="description"
     [expandable]="true"
@@ -33,17 +104,17 @@
   <div class="tui-form__buttons">
     <button tuiButton
             type="button"
-            *ngIf="mode === MODE.NEW"
-            (click)="addRecipe()"
+            (click)="submit()"
     >
-      Add
-    </button>
-    <button tuiButton
-            type="button"
-            *ngIf="mode === MODE.EDIT"
-            (click)="editRecipe()"
-    >
-      Save
+      {{mode === MODE.NEW ? 'Add' : 'Save'}}
     </button>
   </div>
 </form>
+<ng-template
+  #dropdownValues
+  let-measure
+>
+  <div class="account">
+    {{ measure.label }}
+  </div>
+</ng-template>

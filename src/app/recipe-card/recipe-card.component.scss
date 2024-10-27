@@ -1,12 +1,16 @@
-@import "src/assets/styles/variables/variables";
+@import "../../assets/styles/variables";
 
 .card {
   background-image: $gradient-bg-dark;
   justify-content: space-between;
-  gap: 8px;
+  flex-direction: column;
   width: 350px;
   height: 400px;
   position: relative;
+
+  &_content {
+    height: calc(200px - 3rem);
+  }
 }
 
 tui-expand {
@@ -43,7 +47,7 @@ tui-expand {
   top: 0;
   position: absolute;
   z-index: 1;
-  background: rgb(187 187 187 / 94%);
+  background: #424242f5;
   height: 100%;
   width: 100%;
   display: flex;
@@ -54,3 +58,6 @@ tui-expand {
   gap: 20px;
 }
 
+tui-tag {
+  background-color: #8e8e8e;
+}

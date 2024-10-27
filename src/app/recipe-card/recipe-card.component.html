@@ -3,36 +3,42 @@
   <button tuiIconButton
           type="button"
           class="delete-button"
-          [icon]="isSubMenuOpen ? 'tuiIconCloseLarge' : 'tuiIconMoreHorizontalLarge'"
-          appearance="flat"
+          [icon]="isSubMenuOpen ? 'tuiIconCornerLeftDown' : 'tuiIconMoreHorizontalLarge'"
+          appearance="outline"
           (click)="toggleSubMenu()">
   </button>
   <div *ngIf="isSubMenuOpen"
        class="sub-menu">
     <button tuiButton
             appearance="outline"
-    (click)="editRecipe()">
+            (click)="editRecipe()">
       Edit
     </button>
     <button tuiButton
-            appearance="outline"
-    (click)="deleteRecipe()">
+            appearance="accent"
+            (click)="deleteRecipe()">
       Delete
     </button>
   </div>
-  <div class="tui-text_h3">
-    {{recipe?.title}}
+  <div class="tui-text_h3" style="margin-bottom: 2rem">
+    {{recipe()?.title}}
   </div>
   <tui-expand [expanded]="!expanded" class="expandable">
-    <div class="list">
-      <tui-tag *ngFor="let ingredient of recipe?.ingredients"
-               [value]="ingredient">
-      </tui-tag>
-    </div>
+    <tui-scrollbar class="card_content">
+      <div *ngFor="let ingredient of recipe()?.ingredients">
+        <div class="d-fx ai-c gap-5">
+          <span>{{ingredient.name}}</span>
+          <span>{{ingredient.measurementValue}}</span>
+          <span>{{ingredient.measurementName.label}}</span>
+        </div>
+      </div>
+    </tui-scrollbar>
   </tui-expand>
   <tui-expand [expanded]="expanded">
     <ng-template tuiExpandContent>
-      <p>{{recipe?.description}}</p>
+      <tui-scrollbar class="card_content">
+        <p>{{recipe()?.description}}</p>
+      </tui-scrollbar>
     </ng-template>
   </tui-expand>
   <button

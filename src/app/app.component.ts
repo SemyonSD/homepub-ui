@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {AuthService} from "./auth/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'home-pub';
+  public title = 'home-pub';
+  public hasToken = this.authService.token;
+
+  constructor(private readonly authService: AuthService, private readonly router: Router) {
+  }
+
+  public logOut(): void {
+    this.authService.revokeToken();
+    this.router.navigate(['/auth']).then()
+  }
 }

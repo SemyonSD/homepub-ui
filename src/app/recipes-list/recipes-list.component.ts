@@ -23,6 +23,6 @@ export class RecipesListComponent implements OnInit {
   }
 
   identify(index: number, item: Recipe){
-    return item.title;
+    return item.id;
   }
 }

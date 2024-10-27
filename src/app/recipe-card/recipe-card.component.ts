@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, input, Input} from '@angular/core';
 import {Recipe} from "../shared/models/recipe.model";
 import {RecipesService} from "../shared/services/recipes/recipes.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -7,10 +7,11 @@ import {fromPromise} from "rxjs/internal/observable/innerFrom";
 @Component({
   selector: 'app-recipe-card',
   templateUrl: './recipe-card.component.html',
-  styleUrls: ['./recipe-card.component.scss']
+  styleUrls: ['./recipe-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RecipeCardComponent {
-  @Input() public recipe: Recipe | null = null;
+  public recipe = input<Recipe | null>(null);
   public expanded: boolean = false;
   public isSubMenuOpen: boolean = false;
 
@@ -24,14 +25,14 @@ export class RecipeCardComponent {
   }
 
   public deleteRecipe() {
-    if (!this.recipe?._id) {
+    if (!this.recipe()?.id) {
       throw Error('Id not found')
     }
-    this.recipesService.deleteRecipe(this.recipe?._id as string).subscribe(() => this.toggle())
+    this.recipesService.deleteRecipe(this.recipe()?.id as string).subscribe(() => this.toggle())
   }
 
   public editRecipe() {
-    fromPromise(this.router.navigate([this.recipe?._id], {relativeTo: this.activatedRoute})).subscribe(() => {
+    fromPromise(this.router.navigate([this.recipe()?.id], {relativeTo: this.activatedRoute})).subscribe(() => {
       this.toggleSubMenu();
     })
   }

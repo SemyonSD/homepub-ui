@@ -1,0 +1,170 @@
+<div
+  tuiCarouselButtons
+  class="wrapper"
+>
+  <div style="height: 70px; display: flex; align-items: center; gap: 10px">
+    @if (carouselIndexSignal() !== 0) {
+    <button
+      [appearance]="'outline'"
+      tuiButton
+      type="button"
+      style="height: 70px; width: 200px"
+      (click)="setIndex(0)"
+    >
+      <span class="tui-text_h1"
+            title="Log In"
+      >Log In</span>
+    </button>
+    } @else {
+    <span class="tui-text_h1"
+            title="Log In"
+            style="height: 70px; width: 200px; text-align: center; line-height: 70px;"
+      >Log In</span>
+    }
+    <span class="tui-text_h1"> / </span>
+    @if (carouselIndexSignal() !== 1) {
+    <button
+      [appearance]="'outline'"
+      tuiButton
+      type="button"
+      style="height: 70px; width: 240px; text-align: center"
+      (click)="setIndex(1)"
+    >
+    <span class="tui-text_h1"
+          title="Sign Up"
+    >Sign Up</span>
+    </button>
+    } @else {
+    <span class="tui-text_h1"
+          title="Sign Up"
+          style="height: 70px; width: 240px; text-align: center; line-height: 70px;"
+    >Sign Up</span>
+    }
+  </div>
+  <div style="display: flex">
+  @if (carouselIndexSignal() === 0) {
+      <form [formGroup]="authForm" (ngSubmit)="signIn()" style="margin-bottom: auto">
+      <label
+        tuiLabel="">
+        <tui-input
+          formControlName="username"
+          [tuiHintContent]="'Enter your email'"
+          [tuiHintDirection]="'right'"
+          [tuiTextfieldCleaner]="true"
+          class="auth-form-field"
+        >
+          Type an email
+          <span class="tui-required"></span>
+          <input
+            autocomplete="email"
+            placeholder="mail@mail.ru"
+            tuiTextfield
+            type="email"
+          />
+        </tui-input>
+         <tui-error
+            formControlName="username"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+        </label>
+        <label
+        tuiLabel="">
+        <tui-input-password
+          class="auth-form-field"
+          formControlName="password">
+          Type a password
+          <span class="tui-required"></span>
+          <input
+            placeholder="Enter your password"
+            tuiTextfield
+          />
+        </tui-input-password>
+         <tui-error
+            formControlName="password"
+            [error]="[] | tuiFieldError | async"
+        ></tui-error>
+        </label>
+        <button
+          appearance="primary"
+          tuiButton
+          type="submit"
+          [showLoader]="showLoader"
+        >
+          Submit
+        </button>
+      </form>
+}
+    @if (carouselIndexSignal() === 1) {
+      <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+      <span style="display: flex; gap: 20px;">
+      <tui-input
+        formControlName="name"
+        [tuiHintContent]="'Enter your name'"
+        [tuiTextfieldCleaner]="true"
+        class="auth-form-field"
+      >
+        Type a name
+        <span class="tui-required"></span>
+        <input
+          autocomplete="name"
+          placeholder="Ivan"
+          tuiTextfield
+          type="text"
+        />
+      </tui-input>
+        <tui-input
+          formControlName="surname"
+          [tuiHintContent]="'Enter your surname'"
+          [tuiTextfieldCleaner]="true"
+          class="auth-form-field"
+        >
+        Type a surname
+        <span class="tui-required"></span>
+        <input
+          autocomplete="surname"
+          placeholder="ivanov"
+          tuiTextfield
+          type="text"
+        />
+      </tui-input>
+    </span>
+        <span style="display: flex; gap: 20px;">
+       <tui-input
+         formControlName="username"
+         [tuiHintContent]="'Enter your email'"
+         [tuiTextfieldCleaner]="true"
+         class="auth-form-field"
+       >
+          Type an email
+          <span class="tui-required"></span>
+          <input
+            autocomplete="email"
+            placeholder="mail@mail.ru"
+            tuiTextfield
+            type="email"
+          />
+        </tui-input>
+      <tui-input-password
+        class="auth-form-field"
+        formControlName="password">
+        Type a password
+        <span class="tui-required"></span>
+        <input
+          placeholder="Enter your password"
+          tuiTextfield
+        />
+      </tui-input-password>
+      </span>
+        <button
+          appearance="primary"
+          tuiButton
+          type="submit"
+          [showLoader]="showLoader"
+        >
+          Register
+        </button>
+      </form>
+    }
+  </div>
+</div>
+

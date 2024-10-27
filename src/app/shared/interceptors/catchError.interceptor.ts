@@ -4,12 +4,14 @@ import {TuiAlertService, TuiNotification} from "@taiga-ui/core";
 import {Router} from "@angular/router";
 import {fromPromise} from "rxjs/internal/observable/innerFrom";
 import {catchError, defer, map, Observable, of, switchMap, take, tap, throwError} from "rxjs";
+import {AuthService} from "../../auth/auth.service";
 
 
 @Injectable()
 export class CatchErrorInterceptor implements HttpInterceptor {
   constructor(public router: Router,
-              private alertService: TuiAlertService) {
+              private alertService: TuiAlertService,
+              private authService: AuthService) {
   }
 
   intercept(
@@ -33,6 +35,14 @@ export class CatchErrorInterceptor implements HttpInterceptor {
                   message = message.join('; ')
                 }
                 this.showAlert(message, response.error['error']);
+              } else if (response.status === 401) {
+                let message = response.error['message'];
+                if (typeof message === 'object') {
+                  message = message.join('; ')
+                }
+                this.showAlert(message, response.error['error']);
+                this.authService.revokeToken();
+                this.router.navigate(['/auth']).then()
               } else if (response?.status === 504) {
                 this.showAlert(response.error, response.statusText);
               }

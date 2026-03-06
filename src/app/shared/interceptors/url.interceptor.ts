@@ -6,6 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class UrlInterceptor implements HttpInterceptor {
@@ -14,8 +15,11 @@ export class UrlInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    const base = environment.apiBaseUrl
+      ? `${environment.apiBaseUrl.replace(/\/$/, '')}/v1/`
+      : '/api/v1/';
     request = request.clone({
-      url: ['/api/v1/', request.url].join(''),
+      url: [base, request.url].join(''),
       withCredentials: true
     });
 

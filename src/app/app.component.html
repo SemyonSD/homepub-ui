@@ -1,19 +1,10 @@
 <tui-theme-night></tui-theme-night>
 <tui-root tuiMode="onDark">
   <div class="header tui-text_h1 flex-row jc-sb">
-    <tui-svg
-      src="assets/icons/svg/logo/logo-white-on-transparent-background.svg"
-      class="icon"
-    ></tui-svg>
-    <button
-      appearance="outline"
-      tuiButton
-      type="button"
-      *ngIf="hasToken()"
-      (click)="logOut()"
-    >
+    <tui-svg src="assets/icons/svg/logo/logo-white-on-transparent-background.svg" class="icon"></tui-svg>
+    <button tuiHintContent="Log Out" tuiHintDirection="bottom" appearance="flat" tuiButton type="button"
+      *ngIf="hasToken()" (click)="logOut()">
       <tui-svg src="tuiIconLogOutLarge"></tui-svg>
-      Log Out
     </button>
   </div>
 
@@ -21,4 +12,3 @@
     <router-outlet></router-outlet>
   </div>
 </tui-root>
-

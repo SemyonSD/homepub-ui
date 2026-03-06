@@ -4,3 +4,9 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.nutrition-row {
+  ::ng-deep .tui-textfield {
+    min-height: 32px;
+  }
+}

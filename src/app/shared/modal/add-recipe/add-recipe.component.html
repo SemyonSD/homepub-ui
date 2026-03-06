@@ -1,119 +1,89 @@
-<form class="tui-form"
-      [formGroup]="recipeForm"
-      (keydown.control.enter)="submit()"
->
+<form class="tui-form" [formGroup]="recipeForm" (keydown.control.enter)="submit()">
   <div class="tui-text_h3 tui-form__header">
     Add a new recipe
   </div>
-  <tui-input [tuiTextfieldLabelOutside]="true"
-             formControlName="title"
-             class="tui-form__row">
+  <tui-input [tuiTextfieldLabelOutside]="true" formControlName="title" class="tui-form__row">
     Type a drink name
-    <input tuiTextfield
-           type="text"
-    />
+    <input tuiTextfield type="text" />
   </tui-input>
   <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('title')" [error]="error"></tui-error>
 
-  <div formArrayName="ingredients"
-       class="tui-form__row"
-  >
-    <div tuiGroup
-         class="group"
-         style="flex: 1"
-         *ngFor="let ingredientGroup of ingredientsFormArray.controls; let idx = index"
-         [formGroupName]="idx">
+  <div formArrayName="ingredients" class="tui-form__row">
+    <div tuiGroup class="group" style="flex: 1"
+      *ngFor="let ingredientGroup of ingredientsFormArray.controls; let idx = index" [formGroupName]="idx">
       <div>
-        <tui-input
-          formControlName="name"
-          class="tui-group__inherit-item"
-        >
+        <tui-input formControlName="name" class="tui-group__inherit-item">
           Ingredient
-          <input
-            placeholder="Ingredient"
-            tuiTextfield
-          />
+          <input placeholder="Ingredient" tuiTextfield />
         </tui-input>
-        <tui-error
-          formControlName="name"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
+        <tui-error formControlName="name" [error]="[] | tuiFieldError | async"></tui-error>
       </div>
       <div>
-        <tui-input-number
-          formControlName="measurementValue"
-          class="tui-group__inherit-item"
-        >
+        <tui-input-number formControlName="measurementValue" class="tui-group__inherit-item">
           Value
-          <input
-            placeholder="Value"
-            tuiTextfield
-          />
+          <input placeholder="Value" tuiTextfield />
         </tui-input-number>
-        <tui-error
-          formControlName="measurementValue"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
+        <tui-error formControlName="measurementValue" [error]="[] | tuiFieldError | async"></tui-error>
       </div>
       <div>
-        <tui-select
-          tuiTextfieldSize="l"
-          formControlName="measurementName"
-          class="tui-group__inherit-item"
-          [valueContent]="dropdownValues"
-        >
+        <tui-select tuiTextfieldSize="l" formControlName="measurementName" class="tui-group__inherit-item"
+          [valueContent]="dropdownValues">
           Measure
-          <tui-data-list-wrapper
-            *tuiDataList
-            [itemContent]="dropdownValues"
-            [items]="measurementValues"
-          ></tui-data-list-wrapper>
+          <tui-data-list-wrapper *tuiDataList [itemContent]="dropdownValues"
+            [items]="measurementValues"></tui-data-list-wrapper>
         </tui-select>
-        <tui-error
-          formControlName="measurementName"
-          [error]="[] | tuiFieldError | async"
-        ></tui-error>
+        <tui-error formControlName="measurementName" [error]="[] | tuiFieldError | async"></tui-error>
       </div>
-      <button tuiIconButton
-              [size]="'l'"
-              [icon]="'tuiIconMinusCircle'"
-              appearance="outline"
-              class="tui-group__auto-width-item"
-              type="button"
-              (click)="removeIngredientRow(idx)"
-      ></button>
+      <button tuiIconButton [size]="'l'" [icon]="'tuiIconMinusCircle'" appearance="outline"
+        class="tui-group__auto-width-item" type="button" (click)="removeIngredientRow(idx)"></button>
     </div>
   </div>
-  <button tuiButton
-          [size]="'xs'"
-          [icon]="'tuiIconPlusCircle'"
-          appearance="outline"
-          class="add-row-button"
-          type="button"
-          (click)="addIngredientRow()"
-          >Add row</button>
-  <tui-text-area
-    formControlName="description"
-    [expandable]="true"
-    class="tui-form__row"
-  >
+  <button tuiButton [size]="'xs'" [icon]="'tuiIconPlusCircle'" appearance="outline" class="add-row-button" type="button"
+    (click)="addIngredientRow()">Add row</button>
+  <div tuiGroup class="group tui-form__row nutrition-row">
+    <div>
+      <tui-input-number formControlName="carbs" class="tui-group__inherit-item" tuiTextfieldSize="s" [style.border-radius]="'inherit'">
+        Carbs
+        <input placeholder="Carbs" tuiTextfield />
+      </tui-input-number>
+      <tui-error formControlName="carbs" [error]="[] | tuiFieldError | async" />
+    </div>
+    <div>
+      <tui-input-number formControlName="protein" class="tui-group__inherit-item" tuiTextfieldSize="s" [style.border-radius]="'inherit'">
+        Protein
+        <input placeholder="Protein" tuiTextfield />
+      </tui-input-number>
+      <tui-error formControlName="protein" [error]="[] | tuiFieldError | async" />
+    </div>
+    <div>
+      <tui-input-number formControlName="fat" class="tui-group__inherit-item" tuiTextfieldSize="s" [style.border-radius]="'inherit'">
+        Fat
+        <input placeholder="Fat" tuiTextfield />
+      </tui-input-number>
+      <tui-error formControlName="fat" [error]="[] | tuiFieldError | async" />
+    </div>
+    <div>
+      <tui-input-number formControlName="calories" class="tui-group__inherit-item" tuiTextfieldSize="s" [style.border-radius]="'inherit'">
+        Calories
+        <input placeholder="Calories" tuiTextfield />
+      </tui-input-number>
+      <tui-error formControlName="calories" [error]="[] | tuiFieldError | async" />
+    </div>
+    <button tuiButton [size]="'s'" appearance="outline" class="tui-group__auto-width-item"
+      type="button" (click)="calculateCalories()" tuiHintContent="Calculate from carbs, protein, fat">Auto</button>
+  </div>
+  <tui-text-area formControlName="description" [expandable]="true" class="tui-form__row">
     Type a description
   </tui-text-area>
   <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('description')" [error]="error"></tui-error>
 
   <div class="tui-form__buttons">
-    <button tuiButton
-            type="button"
-            (click)="submit()"
-    >
+    <button tuiButton type="button" (click)="submit()">
       {{mode === MODE.NEW ? 'Add' : 'Save'}}
     </button>
   </div>
 </form>
-<ng-template
-  #dropdownValues
-  let-measure
->
+<ng-template #dropdownValues let-measure>
   <div class="account">
     {{ measure.label }}
   </div>

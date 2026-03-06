@@ -3,15 +3,24 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/com
 import {Observable} from "rxjs";
 import {AuthService} from "../../auth/auth.service";
 
+const AUTH_ENDPOINTS = ['auth/login', 'auth/signup', 'auth/refresh', 'auth/logout'];
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
   constructor(public authService: AuthService) {
   }
 
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const isAuthEndpoint = AUTH_ENDPOINTS.some(ep => request.url.includes(ep));
+    const token = this.authService.token();
+
+    if (isAuthEndpoint || !token) {
+      return next.handle(request);
+    }
+
     const clonedRequest = request.clone({
       setHeaders: {
-        authorization: 'Bearer ' + this.authService.token()
+        authorization: 'Bearer ' + token
       }
     });
 

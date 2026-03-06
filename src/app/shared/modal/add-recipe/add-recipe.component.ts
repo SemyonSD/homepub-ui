@@ -7,6 +7,7 @@ import {filter, Subscription, switchMap, tap} from "rxjs";
 import {RecipesService} from "../../services/recipes/recipes.service";
 import {FormHelper} from "../../helpers/form-helper";
 import {Recipe} from "../../models/recipe.model";
+import {Ingredient} from "../../interfaces/ingredient.interface";
 
 enum MODE {
   NEW = 'NEW',
@@ -31,7 +32,11 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         })
       ]),
       description: new FormControl(null, {validators: Validators.required}),
-      id: new FormControl(null)
+      id: new FormControl(null),
+      carbs: new FormControl(null, {validators: [Validators.min(0)]}),
+      protein: new FormControl(null, {validators: [Validators.min(0)]}),
+      fat: new FormControl(null, {validators: [Validators.min(0)]}),
+      calories: new FormControl(null, {validators: [Validators.min(0)]})
     },
   )
   public formHelper: FormHelper | null = null;
@@ -69,9 +74,9 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         return this.recipesService.getRecipeById(id);
       })
     ).subscribe((recipe: Recipe) => {
-      this.recipeForm.patchValue(recipe)
-      debugger
-      this.recipeForm.get('ingredients')?.patchValue(recipe.ingredients)
+      const { ingredients: recipeIngredients, ...recipeRest } = recipe;
+      this.recipeForm.patchValue(recipeRest);
+      this.setIngredientsFromRecipe(recipeIngredients);
     })
 
     this.subscription.add(paramMapSubscription);
@@ -121,16 +126,45 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     return (this.recipeForm.get('ingredients') as FormArray);
   }
 
+  private createIngredientGroup(initialValue?: Ingredient | null): FormGroup {
+    const group = new FormGroup({
+      name: new FormControl(null, { validators: Validators.required }),
+      measurementValue: new FormControl(null, { validators: [Validators.required, Validators.min(0)] }),
+      measurementName: new FormControl(null, { validators: Validators.required })
+    });
+    if (initialValue) {
+      group.patchValue(initialValue as Parameters<FormGroup['patchValue']>[0]);
+    }
+    return group;
+  }
+
+  private setIngredientsFromRecipe(ingredients: Recipe['ingredients']): void {
+    const arr = this.ingredientsFormArray;
+    while (arr.length) {
+      arr.removeAt(0);
+    }
+    if (ingredients?.length) {
+      ingredients.forEach(ing => arr.push(this.createIngredientGroup(ing)));
+    } else {
+      arr.push(this.createIngredientGroup());
+    }
+  }
+
   public addIngredientRow(): void {
-    this.ingredientsFormArray.push(new FormGroup({
-      name: new FormControl(null, {validators: Validators.required}),
-      measurementValue: new FormControl(null, {validators: Validators.required}),
-      measurementName: new FormControl(null, {validators: Validators.required})
-    }));
+    this.ingredientsFormArray.push(this.createIngredientGroup());
   }
 
   public removeIngredientRow(idx: number): void {
     this.ingredientsFormArray.removeAt(idx);
+  }
+
+  /** Calculates calories from carbs, protein, fat: (fat × 9) + (protein × 4) + (carbs × 4) */
+  public calculateCalories(): void {
+    const carbs = this.recipeForm.get('carbs')?.value ?? 0;
+    const protein = this.recipeForm.get('protein')?.value ?? 0;
+    const fat = this.recipeForm.get('fat')?.value ?? 0;
+    const kcal = (Number(fat) * 9) + (Number(protein) * 4) + (Number(carbs) * 4);
+    this.recipeForm.patchValue({ calories: kcal });
   }
 
   public showKey(evt: any) {

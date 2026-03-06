@@ -1,29 +1,28 @@
-<tui-block-status [card]="true"
-                  class="card">
-  <button tuiIconButton
-          type="button"
-          class="delete-button"
-          [icon]="isSubMenuOpen ? 'tuiIconCornerLeftDown' : 'tuiIconMoreHorizontalLarge'"
-          appearance="outline"
-          (click)="toggleSubMenu()">
+<tui-block-status [card]="true" class="card">
+  <button tuiIconButton type="button" class="delete-button"
+    [icon]="isSubMenuOpen ? 'tuiIconCornerLeftDown' : 'tuiIconMoreHorizontalLarge'" appearance="outline"
+    (click)="toggleSubMenu()">
   </button>
-  <div *ngIf="isSubMenuOpen"
-       class="sub-menu">
-    <button tuiButton
-            appearance="outline"
-            (click)="editRecipe()">
+  <div *ngIf="isSubMenuOpen" class="sub-menu">
+    <button tuiButton appearance="outline" (click)="editRecipe()">
       Edit
     </button>
-    <button tuiButton
-            appearance="accent"
-            (click)="deleteRecipe()">
+    <button tuiButton appearance="accent" (click)="deleteRecipe()">
       Delete
     </button>
   </div>
   <div class="tui-text_h3" style="margin-bottom: 2rem">
     {{recipe()?.title}}
   </div>
-  <tui-expand [expanded]="!expanded" class="expandable">
+  <div>
+    @if (recipe()?.carbs != null) { carbs: {{ recipe()?.carbs }}g / }
+    @if (recipe()?.protein != null) { protein: {{ recipe()?.protein }}g / }
+    @if (recipe()?.fat != null) { fat: {{ recipe()?.fat }}g }
+  </div>
+  <div>
+    @if (recipe()?.calories != null) { calories: {{ recipe()?.calories }}kcal }
+  </div>
+  <tui-expand [expanded]="true" class="expandable">
     <tui-scrollbar class="card_content">
       <div *ngFor="let ingredient of recipe()?.ingredients">
         <div class="d-fx ai-c gap-5">
@@ -34,19 +33,7 @@
       </div>
     </tui-scrollbar>
   </tui-expand>
-  <tui-expand [expanded]="expanded">
-    <ng-template tuiExpandContent>
-      <tui-scrollbar class="card_content">
-        <p>{{recipe()?.description}}</p>
-      </tui-scrollbar>
-    </ng-template>
-  </tui-expand>
-  <button
-    tuiButton
-    type="button"
-    appearance="outline"
-    (click)="toggle()"
-  >
-    {{expanded ? 'Show ingredients' : 'Show recipe'}}
+  <button tuiButton type="button" appearance="outline" style="height: 20px;" (click)="showRecipeDescription()">
+    Show recipe
   </button>
 </tui-block-status>

@@ -15,7 +15,12 @@ export class AppComponent {
   }
 
   public logOut(): void {
-    this.authService.revokeToken();
-    this.router.navigate(['/auth']).then()
+    this.authService.logout().subscribe({
+      next: () => this.router.navigate(['/auth']),
+      error: () => {
+        this.authService.revokeToken();
+        this.router.navigate(['/auth']).then();
+      }
+    });
   }
 }

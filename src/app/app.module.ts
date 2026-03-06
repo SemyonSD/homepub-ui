@@ -16,12 +16,14 @@ import {
     TuiSelectModule
 } from "@taiga-ui/kit";
 import {AddRecipeComponent} from './shared/modal/add-recipe/add-recipe.component';
+import {RecipeDescriptionDialogComponent} from './shared/modal/recipe-description-dialog/recipe-description-dialog.component';
 import {RouterModule} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {UrlInterceptor} from "./shared/interceptors/url.interceptor";
 import {RecipesService} from "./shared/services/recipes/recipes.service";
 import {CatchErrorInterceptor} from "./shared/interceptors/catchError.interceptor";
+import {RefreshTokenInterceptor} from "./shared/interceptors/refresh-token.interceptor";
 import {RecipeCardComponent} from './recipe-card/recipe-card.component';
 import {TuiSharedModuleModule} from "./shared/modules/tui-shared-module.module";
 import {AuthModule} from "./auth/auth.module";
@@ -33,6 +35,7 @@ import {of} from "rxjs";
     AppComponent,
     RecipesListComponent,
     AddRecipeComponent,
+    RecipeDescriptionDialogComponent,
     RecipeCardComponent
   ],
     imports: [
@@ -60,6 +63,11 @@ import {of} from "rxjs";
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CatchErrorInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshTokenInterceptor,
       multi: true
     },
     {

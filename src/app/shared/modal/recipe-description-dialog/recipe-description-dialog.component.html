@@ -1,0 +1,13 @@
+<div class="dialog">
+  <div class="tui-text_h3 tui-form__header" *ngIf="recipe?.title">
+    {{ recipe?.title }}
+  </div>
+  <tui-scrollbar class="dialog-content">
+    <p class="description">{{ recipe?.description || 'No description.' }}</p>
+  </tui-scrollbar>
+  <div class="dialog-actions">
+    <button tuiButton type="button" appearance="primary" (click)="close()">
+      Close
+    </button>
+  </div>
+</div>

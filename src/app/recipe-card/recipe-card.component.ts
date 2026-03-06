@@ -12,7 +12,6 @@ import {fromPromise} from "rxjs/internal/observable/innerFrom";
 })
 export class RecipeCardComponent {
   public recipe = input<Recipe | null>(null);
-  public expanded: boolean = false;
   public isSubMenuOpen: boolean = false;
 
   constructor(private recipesService: RecipesService,
@@ -20,15 +19,18 @@ export class RecipeCardComponent {
               private activatedRoute: ActivatedRoute) {
   }
 
-  public toggle(): void {
-    this.expanded = !this.expanded;
+  public showRecipeDescription(): void {
+    const id = this.recipe()?.id;
+    if (id) {
+      this.router.navigate([id, 'description'], { relativeTo: this.activatedRoute });
+    }
   }
 
   public deleteRecipe() {
     if (!this.recipe()?.id) {
       throw Error('Id not found')
     }
-    this.recipesService.deleteRecipe(this.recipe()?.id as string).subscribe(() => this.toggle())
+    this.recipesService.deleteRecipe(this.recipe()?.id as string).subscribe()
   }
 
   public editRecipe() {

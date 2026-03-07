@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  /** Your Render backend URL (no trailing slash). Set via Render env var or replace before deploy. */
-  apiBaseUrl: 'https://homepub.onrender.com/',
+  /** Backend API base (including /api/v1). Requests like auth/signup become {apiBaseUrl}/auth/signup */
+  apiBaseUrl: 'https://homepub.onrender.com/api/v1',
 };

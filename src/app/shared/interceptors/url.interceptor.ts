@@ -16,10 +16,10 @@ export class UrlInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const base = environment.apiBaseUrl
-      ? `${environment.apiBaseUrl.replace(/\/$/, '')}/v1/`
+      ? `${environment.apiBaseUrl.replace(/\/$/, '')}/`
       : '/api/v1/';
     request = request.clone({
-      url: [base, request.url].join(''),
+      url: base + request.url,
       withCredentials: true
     });
 

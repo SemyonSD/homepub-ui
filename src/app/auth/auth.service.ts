@@ -1,5 +1,5 @@
 import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
-import {Observable, tap} from "rxjs";
+import {Observable, tap, map} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 
 export interface TokenResponse {
@@ -21,13 +21,16 @@ export class AuthService {
   }
 
   public signIn(payload: { username: string, password: string }): Observable<TokenResponse> {
-    return this.httpClient.post<TokenResponse>('auth/login', payload).pipe(
+    return this.httpClient.post<TokenResponse>('auth/login', payload, { observe: 'response' }).pipe(
+      map(res => res.body!),
       tap((token: TokenResponse) => this.setTokens(token))
     );
   }
 
   public signUp(payload: { name: string, surname: string, username: string, password: string }): Observable<TokenResponse> {
-    return this.httpClient.post<TokenResponse>('auth/signup', payload);
+    return this.httpClient.post<TokenResponse>('auth/signup', payload, { observe: 'response' }).pipe(
+      map(res => res.body!)
+    );
   }
 
   /**
@@ -42,7 +45,8 @@ export class AuthService {
         obs.complete();
       });
     }
-    return this.httpClient.post<TokenResponse>('auth/refresh', { refresh_token: refreshToken }).pipe(
+    return this.httpClient.post<TokenResponse>('auth/refresh', { refresh_token: refreshToken }, { observe: 'response' }).pipe(
+      map(res => res.body!),
       tap((token: TokenResponse) => this.setTokens(token))
     );
   }
@@ -53,7 +57,9 @@ export class AuthService {
   public logout(): Observable<void> {
     const refreshToken = this.getRefreshToken();
     const req = refreshToken
-      ? this.httpClient.post<void>('auth/logout', { refresh_token: refreshToken })
+      ? this.httpClient.post('auth/logout', { refresh_token: refreshToken }, { observe: 'response' }).pipe(
+          map(() => undefined)
+        )
       : new Observable<void>(obs => { obs.next(); obs.complete(); });
     return req.pipe(
       tap(() => this.revokeToken())

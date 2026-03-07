@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, switchMap, tap} from "rxjs";
+import {BehaviorSubject, Observable, switchMap, tap, map} from "rxjs";
 import {Recipe} from "../../models/recipe.model";
 import {HttpClient} from "@angular/common/http";
 
@@ -14,23 +14,26 @@ export class RecipesService {
 
 
   public getRecipes(): Observable<Recipe[]> {
-    return this.httpClient.get<Recipe[]>('recipes').pipe(
+    return this.httpClient.get<Recipe[]>('recipes', { observe: 'response' }).pipe(
+      map(res => res.body ?? []),
       tap(res => this.recipesState.next(res))
     );
   }
 
   public getRecipeById(id: string): Observable<Recipe> {
-    return this.httpClient.get<Recipe>(`recipes/${id}`)
+    return this.httpClient.get<Recipe>(`recipes/${id}`, { observe: 'response' }).pipe(
+      map(res => res.body!)
+    );
   }
 
   public createRecipe(recipe: Recipe): Observable<Recipe[]> {
-    return this.httpClient.post<Recipe[]>('recipes', recipe).pipe(
+    return this.httpClient.post('recipes', recipe, { observe: 'response' }).pipe(
       switchMap(() => this.getRecipes())
     )
   }
 
   public putRecipe(id: string, recipe: Recipe): Observable<Recipe[]> {
-    return this.httpClient.put<Recipe[]>(`recipes/${id}`, recipe).pipe(
+    return this.httpClient.put(`recipes/${id}`, recipe, { observe: 'response' }).pipe(
       switchMap(() => this.getRecipes())
     )
   }
@@ -40,7 +43,7 @@ export class RecipesService {
   }
 
   public deleteRecipe(id: string) {
-    return this.httpClient.delete<Recipe[]>(`recipes/${id}`).pipe(
+    return this.httpClient.delete(`recipes/${id}`, { observe: 'response' }).pipe(
       switchMap(() => this.getRecipes())
     );
   }

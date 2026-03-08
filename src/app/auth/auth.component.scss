@@ -25,3 +25,18 @@ form {
   align-items: center;
   gap: 20px;
 }
+
+.divider {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  gap: 8px;
+
+  &__line {
+    position: relative;
+    flex: 1;
+    top: 10px;
+    height: 1px;
+    background-color: white;
+  }
+}

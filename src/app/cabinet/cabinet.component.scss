@@ -1,0 +1,16 @@
+@import "../../assets/styles/variables";
+
+.cabinet {
+  padding: 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.cabinet__title {
+  margin: 0 0 1rem 0;
+  color: var(--tui-text-01-night);
+}
+
+.cabinet__toolbar {
+  margin-bottom: 1rem;
+}

@@ -30,6 +30,6 @@ export class RecipeDescriptionDialogComponent implements OnInit {
   }
 
   close(): void {
-    this.router.navigate(['/recipes']);
+    this.router.navigate(['/cabinet/recipes']);
   }
 }

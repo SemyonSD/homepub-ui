@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, switchMap, tap, map} from "rxjs";
+import {BehaviorSubject, Observable, switchMap, tap} from "rxjs";
 import {Recipe} from "../../models/recipe.model";
-import {HttpClient} from "@angular/common/http";
+import {ApiService} from "../api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,31 +9,39 @@ import {HttpClient} from "@angular/common/http";
 export class RecipesService {
   private recipesState: BehaviorSubject<Recipe[] | null> = new BehaviorSubject<Recipe[] | null>(null)
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private api: ApiService) {
   }
 
 
   public getRecipes(): Observable<Recipe[]> {
-    return this.httpClient.get<Recipe[]>('recipes', { observe: 'response' }).pipe(
-      map(res => res.body ?? []),
+    return this.api.recipesGetAll().pipe(
+      tap(res => this.recipesState.next(res))
+    );
+  }
+
+  /** Fetches recipes filtered by title (partial, case-insensitive). Empty title loads all. */
+  public getRecipesByTitle(title: string): Observable<Recipe[]> {
+    const trimmed = title?.trim() ?? '';
+    if (!trimmed) {
+      return this.getRecipes();
+    }
+    return this.api.recipesGetByTitle(trimmed).pipe(
       tap(res => this.recipesState.next(res))
     );
   }
 
   public getRecipeById(id: string): Observable<Recipe> {
-    return this.httpClient.get<Recipe>(`recipes/${id}`, { observe: 'response' }).pipe(
-      map(res => res.body!)
-    );
+    return this.api.recipesGetById(id);
   }
 
   public createRecipe(recipe: Recipe): Observable<Recipe[]> {
-    return this.httpClient.post('recipes', recipe, { observe: 'response' }).pipe(
+    return this.api.recipesCreate(recipe).pipe(
       switchMap(() => this.getRecipes())
     )
   }
 
   public putRecipe(id: string, recipe: Recipe): Observable<Recipe[]> {
-    return this.httpClient.put(`recipes/${id}`, recipe, { observe: 'response' }).pipe(
+    return this.api.recipesUpdate(id, recipe).pipe(
       switchMap(() => this.getRecipes())
     )
   }
@@ -43,7 +51,7 @@ export class RecipesService {
   }
 
   public deleteRecipe(id: string) {
-    return this.httpClient.delete(`recipes/${id}`, { observe: 'response' }).pipe(
+    return this.api.recipesDelete(id).pipe(
       switchMap(() => this.getRecipes())
     );
   }

@@ -2,11 +2,12 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgDompurifySanitizer} from "@tinkoff/ng-dompurify";
 import {TUI_SANITIZER, TuiGroupModule} from "@taiga-ui/core";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {NgModule} from '@angular/core';
+import {NgModule, ModuleWithProviders, Type} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {CommonModule} from "@angular/common";
+import {CabinetComponent} from './cabinet/cabinet.component';
 import {RecipesListComponent} from './recipes-list/recipes-list.component';
 import {
     TUI_VALIDATION_ERRORS,
@@ -29,27 +30,41 @@ import {TuiSharedModuleModule} from "./shared/modules/tui-shared-module.module";
 import {AuthModule} from "./auth/auth.module";
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {of} from "rxjs";
+import {OAuthModule} from "angular-oauth2-oidc";
+import {authConfig} from "./auth/auth.config";
+
+const appImports: (Type<any> | ModuleWithProviders<{}>)[] = [
+  BrowserModule,
+  AuthModule,
+  CommonModule,
+  AppRoutingModule,
+  RouterModule,
+  HttpClientModule,
+  ReactiveFormsModule,
+  BrowserAnimationsModule,
+  TuiSharedModuleModule,
+];
+if (authConfig) {
+  appImports.push(
+    OAuthModule.forRoot({
+      resourceServer: {
+        sendAccessToken: false,
+        allowedUrls: []
+      }
+    })
+  );
+}
 
 @NgModule({
   declarations: [
     AppComponent,
+    CabinetComponent,
     RecipesListComponent,
     AddRecipeComponent,
     RecipeDescriptionDialogComponent,
     RecipeCardComponent
   ],
-    imports: [
-        BrowserModule,
-        AuthModule,
-        CommonModule,
-        AppRoutingModule,
-        RouterModule,
-        HttpClientModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        TuiSharedModuleModule,
-
-    ],
+  imports: appImports,
   providers: [
     {
       provide: TUI_SANITIZER,

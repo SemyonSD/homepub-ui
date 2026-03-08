@@ -6,6 +6,8 @@ import {RecipeDescriptionDialogComponent} from "./shared/modal/recipe-descriptio
 import {tuiGenerateDialogableRoute} from "@taiga-ui/kit";
 import {AuthComponent} from "./auth/auth.component";
 import {authGuard} from "./auth/auth.guard";
+import {OAuthCallbackComponent} from "./auth/oauth-callback.component";
+import {CabinetComponent} from "./cabinet/cabinet.component";
 
 const routes: Routes = [
   {
@@ -13,22 +15,37 @@ const routes: Routes = [
     component: AuthComponent
   },
   {
-    path: 'recipes',
-    component: RecipesListComponent,
+    path: 'auth/callback',
+    component: OAuthCallbackComponent
+  },
+  {
+    path: 'cabinet',
+    component: CabinetComponent,
     canActivate: [authGuard],
     children: [
       {
-        path: ':id',
+        path: 'recipes',
+        component: RecipesListComponent,
         children: [
-          tuiGenerateDialogableRoute(AddRecipeComponent, {path: ''}),
-          tuiGenerateDialogableRoute(RecipeDescriptionDialogComponent, {path: 'description'})
+          {
+            path: ':id',
+            children: [
+              tuiGenerateDialogableRoute(AddRecipeComponent, {path: ''}),
+              tuiGenerateDialogableRoute(RecipeDescriptionDialogComponent, {path: 'description'})
+            ]
+          }
         ]
+      },
+      {
+        path: '',
+        redirectTo: 'recipes',
+        pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'recipes',
+    redirectTo: 'cabinet',
     pathMatch: 'full'
   }
 ];

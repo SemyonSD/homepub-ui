@@ -5,7 +5,8 @@ import {
   TuiModeModule,
   TuiRootModule, TuiScrollbarModule,
   TuiSvgModule, TuiTextfieldControllerModule,
-  TuiThemeNightModule
+  TuiThemeNightModule,
+  TuiPrimitiveTextfieldModule
 } from "@taiga-ui/core";
 import {TuiBlockStatusModule} from "@taiga-ui/layout";
 import {
@@ -26,6 +27,7 @@ import {
     TuiDialogModule,
     TuiAlertModule,
     TuiThemeNightModule,
+    TuiPrimitiveTextfieldModule,
     TuiModeModule,
     TuiSvgModule,
     TuiBlockStatusModule,
@@ -57,6 +59,7 @@ import {
     TuiDialogModule,
     TuiAlertModule,
     TuiThemeNightModule,
+    TuiPrimitiveTextfieldModule,
     TuiModeModule,
     TuiSvgModule,
     TuiBlockStatusModule,

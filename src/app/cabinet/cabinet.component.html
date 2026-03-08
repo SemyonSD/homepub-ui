@@ -1,0 +1,9 @@
+<section class="cabinet">
+  <div class="cabinet__toolbar">
+    <tui-primitive-textfield>
+      <label tuiLabel>Filter recipes by name</label>
+      <input tuiTextfield [formControl]="filterControl" />
+    </tui-primitive-textfield>
+  </div>
+  <router-outlet></router-outlet>
+</section>

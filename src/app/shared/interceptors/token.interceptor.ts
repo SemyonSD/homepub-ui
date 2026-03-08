@@ -3,7 +3,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/com
 import {Observable} from "rxjs";
 import {AuthService} from "../../auth/auth.service";
 
-const AUTH_ENDPOINTS = ['auth/login', 'auth/signup', 'auth/refresh', 'auth/logout'];
+const AUTH_ENDPOINTS = ['auth/login', 'auth/signup', 'auth/refresh', 'auth/logout', 'auth/oauth/token', 'auth/oauth/session'];
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {

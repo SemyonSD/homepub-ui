@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal, WritableSignal} from '@angular/core';
 import {AuthService} from "./auth.service";
+import {OAuthFlowService} from "./oauth-flow.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {catchError, finalize, switchMap, throwError} from "rxjs";
 import {Router} from "@angular/router";
@@ -44,7 +45,7 @@ export class AuthComponent implements OnInit {
   public carouselIndexSignal: WritableSignal<number> = signal(0);
   public userFieldSignal: WritableSignal<string[]> = signal([]);
 
-  constructor(private authService: AuthService, private router: Router, private cd: ChangeDetectorRef) {
+  constructor(public authService: AuthService, public oauthFlowService: OAuthFlowService, private router: Router, private cd: ChangeDetectorRef) {
   }
 
   public ngOnInit() {
@@ -67,7 +68,7 @@ export class AuthComponent implements OnInit {
         return throwError(() => err);
       }),
       switchMap(() => {
-        return fromPromise(this.router.navigate(['./recipes']));
+        return fromPromise(this.router.navigate(['/cabinet']));
       }),
       finalize(() => {
         this.showLoader = false;
@@ -92,5 +93,11 @@ export class AuthComponent implements OnInit {
 
   public setIndex(idx: number): void {
     this.carouselIndexSignal.set(idx);
+  }
+
+  public loginWithOAuth(event?: Event): void {
+    event?.preventDefault();
+    event?.stopPropagation();
+    this.oauthFlowService.loginWithOAuth();
   }
 }

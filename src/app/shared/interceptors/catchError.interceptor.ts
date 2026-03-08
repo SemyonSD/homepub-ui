@@ -19,36 +19,33 @@ export class CatchErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError(request => {
-        return defer(() => request.error.error instanceof Blob ?
-          fromPromise(request.error.error.text()).pipe(
-            map((errorDetails) => ({
-                ...request,
-                error: {...request.error, error: JSON.parse(errorDetails as string)}
-              })
-            )) :
-          of(request)).pipe(
+      catchError(err => {
+        const request = err?.error != null ? err : { error: err, status: 0 };
+        return defer(() =>
+          request.error?.error instanceof Blob
+            ? fromPromise(request.error.error.text()).pipe(
+                map((errorDetails) => ({
+                  ...request,
+                  error: { ...request.error, error: JSON.parse(errorDetails as string) },
+                }))
+              )
+            : of(request)
+        ).pipe(
           tap((response) => {
-              if (response.status === 400) {
-                let message = response.error['message'];
-                if (typeof message === 'object') {
-                  message = message.join('; ')
-                }
-                this.showAlert(message, response.error['error']);
-              } else if (response.status === 401) {
-                let message = response.error['message'];
-                if (typeof message === 'object') {
-                  message = message.join('; ')
-                }
-                this.showAlert(message, response.error['error']);
-                this.authService.revokeToken();
-                this.router.navigate(['/auth']).then()
-              } else if (response?.status === 504) {
-                this.showAlert(response.error, response.statusText);
-              }
+            const body = response?.error;
+            const message = typeof body?.message === 'object' ? (body.message as string[]).join('; ') : body?.message;
+            const errorLabel = body?.error;
+            if (response?.status === 400) {
+              this.showAlert(message ?? 'Bad request', errorLabel ?? 'Error');
+            } else if (response?.status === 401) {
+              this.showAlert(message ?? 'Unauthorized', errorLabel ?? 'Error');
+              this.authService.revokeToken();
+              this.router.navigate(['/auth']).then();
+            } else if (response?.status === 504) {
+              this.showAlert(response?.error ?? 'Gateway Timeout', response?.statusText ?? '');
             }
-          ),
-          switchMap((parsedError) => throwError(parsedError))
+          }),
+          switchMap((parsedError) => throwError(() => parsedError))
         );
       })
     );

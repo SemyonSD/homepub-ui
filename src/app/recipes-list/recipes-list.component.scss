@@ -1,11 +1,54 @@
 .container {
   display: flex;
   gap: 20px;
-  padding: 20px;
+  padding: 20p 0x;
   flex-wrap: wrap;
 
   :host-context(tui-root._mobile) & {
     flex-direction: column;
+  }
+}
+
+.filter {
+  flex: 1 1 100%;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 200px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.65);
+  animation: overlayFadeIn 0.35s ease-out;
+
+  &__logo {
+    animation: logoPulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
   }
 }
 

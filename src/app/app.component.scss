@@ -9,6 +9,8 @@
   box-sizing: border-box;
   gap: 20px;
   align-items: center;
+  position: relative;
+  z-index: 101;
 
   & * {
     color: var(--tui-text-01-night);
@@ -25,6 +27,12 @@
 .icon {
   width: 6rem;
   height: 6rem;
+}
+
+.header-icon {
+  width: 52px;
+  height: 64px;
+  overflow: visible;
 }
 
 .user-name {

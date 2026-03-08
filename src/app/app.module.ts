@@ -11,10 +11,6 @@ import {CabinetComponent} from './cabinet/cabinet.component';
 import {RecipesListComponent} from './recipes-list/recipes-list.component';
 import {
     TUI_VALIDATION_ERRORS,
-    TuiDataListWrapperModule,
-    TuiInputNumberModule,
-    TuiMultiSelectModule,
-    TuiSelectModule
 } from "@taiga-ui/kit";
 import {AddRecipeComponent} from './shared/modal/add-recipe/add-recipe.component';
 import {RecipeDescriptionDialogComponent} from './shared/modal/recipe-description-dialog/recipe-description-dialog.component';
@@ -31,7 +27,7 @@ import {AuthModule} from "./auth/auth.module";
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {of} from "rxjs";
 import {OAuthModule} from "angular-oauth2-oidc";
-import {authConfig} from "./auth/auth.config";
+import { AnimatedLogoIconComponent } from "./shared/components/animated-logo-icon/animated-logo-icon.component";
 
 const appImports: (Type<any> | ModuleWithProviders<{}>)[] = [
   BrowserModule,
@@ -43,17 +39,15 @@ const appImports: (Type<any> | ModuleWithProviders<{}>)[] = [
   ReactiveFormsModule,
   BrowserAnimationsModule,
   TuiSharedModuleModule,
+  AnimatedLogoIconComponent,
+  // Always load OAuthModule so OAuthService is available; configure at runtime when environment.oauth is set.
+  OAuthModule.forRoot({
+    resourceServer: {
+      sendAccessToken: false,
+      allowedUrls: []
+    }
+  }),
 ];
-if (authConfig) {
-  appImports.push(
-    OAuthModule.forRoot({
-      resourceServer: {
-        sendAccessToken: false,
-        allowedUrls: []
-      }
-    })
-  );
-}
 
 @NgModule({
   declarations: [

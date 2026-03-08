@@ -43,8 +43,17 @@ export class OAuthFlowService {
 
   /** Start OAuth 2.0 Authorization Code + PKCE flow (redirects to IdP). */
   loginWithOAuth(): void {
-    if (!this.oauthService || !getOAuthConfig()) {
-      this._oauthError.set('OAuth is not configured.');
+    const config = getOAuthConfig();
+    if (!config) {
+      this._oauthError.set(
+        'OAuth is not configured. Set environment.oauth in src/environments/environment.ts (see environment.prod.ts for production) and rebuild the app.'
+      );
+      return;
+    }
+    if (!this.oauthService) {
+      this._oauthError.set(
+        'OAuth module is not loaded. Ensure environment.oauth is set at build time so OAuthModule is imported, then restart the dev server or rebuild.'
+      );
       return;
     }
     this._oauthError.set(null);

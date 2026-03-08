@@ -1,0 +1,31 @@
+:host {
+  display: inline-block;
+  line-height: 0;
+  overflow: visible;
+}
+
+.animated-icon {
+  display: block;
+  overflow: visible;
+
+  .icon-inner {
+    overflow: visible;
+  }
+}
+
+/* Citrus slice orbits around the glass rim (center 50,16 in viewBox) */
+.slice-orbit {
+  transform-origin: center;
+  animation: slice-orbit 3s linear infinite;
+}
+
+/* Slice cycles around the glass (50,16 = rim center in viewBox) */
+@keyframes slice-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

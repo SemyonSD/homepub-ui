@@ -10,17 +10,28 @@ const ACCESS_TOKEN = 'access_token';
 const REFRESH_TOKEN = 'refresh_token';
 const AUTH_SOURCE = 'auth_source';
 
+export interface UserProfile {
+  name: string;
+  surname: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private _token: WritableSignal<string | null> = signal(null);
   private _refreshToken: WritableSignal<string | null> = signal(null);
+  private _profile: WritableSignal<UserProfile | null> = signal(null);
 
   constructor(
     private api: ApiService,
     @Optional() private oauthService: OAuthService | null
   ) {
+  }
+
+  /** Current user name and surname; load with loadProfile() when token exists. */
+  get profile(): Signal<UserProfile | null> {
+    return this._profile.asReadonly();
   }
 
   isOAuthUser(): boolean {
@@ -112,8 +123,17 @@ export class AuthService {
   public revokeToken(): void {
     this._token.set(null);
     this._refreshToken.set(null);
+    this._profile.set(null);
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
     localStorage.removeItem(AUTH_SOURCE);
+  }
+
+  /** Load current user profile from backend. Call when token is set (e.g. after login or on app init). */
+  public loadProfile(): Observable<UserProfile> {
+    return this.api.authGetMe().pipe(
+      map((me) => ({ name: me.name, surname: me.surname })),
+      tap((p) => this._profile.set(p))
+    );
   }
 }

@@ -67,6 +67,7 @@ export class AuthComponent implements OnInit {
         this.userFieldSignal.set([fieldError]);
         return throwError(() => err);
       }),
+      switchMap(() => this.authService.loadProfile()),
       switchMap(() => {
         return fromPromise(this.router.navigate(['/cabinet']));
       }),

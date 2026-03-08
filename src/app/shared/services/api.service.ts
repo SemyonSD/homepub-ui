@@ -63,6 +63,13 @@ export class ApiService {
       .pipe(map(() => undefined));
   }
 
+  /**
+   * Get current user profile (name, surname). Requires valid access token.
+   */
+  authGetMe(): Observable<{ sub: string; username: string; name: string; surname: string }> {
+    return this.http.get<{ sub: string; username: string; name: string; surname: string }>('auth/me');
+  }
+
   // ─── OAuth ─────────────────────────────────────────────────────────────────
 
   /**
@@ -88,21 +95,16 @@ export class ApiService {
   // ─── Recipes ───────────────────────────────────────────────────────────────
 
   /**
-   * Fetch all recipes for the current user.
+   * Fetch recipes for the current user. Optional title filters by partial match (case-insensitive).
+   * Omit title or pass empty string to get all recipes.
    */
-  recipesGetAll(): Observable<Recipe[]> {
+  recipesGetAll(title?: string): Observable<Recipe[]> {
+    const params =
+      typeof title === 'string' && title.trim()
+        ? { title: title.trim() }
+        : undefined;
     return this.http
-      .get<Recipe[]>('recipes', { observe: 'response' })
-      .pipe(map((res) => res.body ?? []));
-  }
-
-  /**
-   * Fetch recipes whose title contains the given string (case-insensitive).
-   * Backend endpoint: GET recipes/by-titles?title=...
-   */
-  recipesGetByTitle(title: string): Observable<Recipe[]> {
-    return this.http
-      .get<Recipe[]>('recipes/by-titles', { params: { title }, observe: 'response' })
+      .get<Recipe[]>('recipes', { params, observe: 'response' })
       .pipe(map((res) => res.body ?? []));
   }
 

@@ -22,10 +22,7 @@ export class RecipesService {
   /** Fetches recipes filtered by title (partial, case-insensitive). Empty title loads all. */
   public getRecipesByTitle(title: string): Observable<Recipe[]> {
     const trimmed = title?.trim() ?? '';
-    if (!trimmed) {
-      return this.getRecipes();
-    }
-    return this.api.recipesGetByTitle(trimmed).pipe(
+    return this.api.recipesGetAll(trimmed || undefined).pipe(
       tap(res => this.recipesState.next(res))
     );
   }

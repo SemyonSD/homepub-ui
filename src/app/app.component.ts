@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "./auth/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -7,11 +7,18 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public title = 'home-pub';
   public hasToken = this.authService.token;
+  public profile = this.authService.profile;
 
   constructor(private readonly authService: AuthService, private readonly router: Router) {
+  }
+
+  ngOnInit(): void {
+    if (this.authService.token()) {
+      this.authService.loadProfile().subscribe();
+    }
   }
 
   public logOut(): void {

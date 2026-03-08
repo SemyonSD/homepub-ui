@@ -1,20 +1,10 @@
 <div tuiCarouselButtons class="wrapper">
   <div style="height: 70px; display: flex; align-items: center; gap: 10px">
-    @if (carouselIndexSignal() !== 0) {
-    <button [appearance]="'outline'" tuiButton type="button" style="height: 70px; width: 200px" (click)="setIndex(0)">
-      <span class="tui-text_h1" title="Log In">Log In</span>
-    </button>
-    } @else {
+    @if (carouselIndexSignal() === 0) {
     <span class="tui-text_h1" title="Log In"
-      style="height: 70px; width: 200px; text-align: center; line-height: 70px;">Log In</span>
+      style="height: 70px; width: 200px; text-align: center; line-height: 70px;">Sign In</span>
     }
-    <span class="tui-text_h1"> / </span>
-    @if (carouselIndexSignal() !== 1) {
-    <button [appearance]="'outline'" tuiButton type="button" style="height: 70px; width: 240px; text-align: center"
-      (click)="setIndex(1)">
-      <span class="tui-text_h1" title="Sign Up">Sign Up</span>
-    </button>
-    } @else {
+    @if (carouselIndexSignal() === 1) {
     <span class="tui-text_h1" title="Sign Up"
       style="height: 70px; width: 240px; text-align: center; line-height: 70px;">Sign Up</span>
     }
@@ -47,7 +37,7 @@
     }
     @if (carouselIndexSignal() === 1) {
     <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
-      <span style="display: flex; gap: 20px;">
+      <span style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
         <tui-input formControlName="name" [tuiHintContent]="'Enter your name'" [tuiTextfieldCleaner]="true"
           class="auth-form-field">
           Type a name
@@ -61,7 +51,7 @@
           <input autocomplete="surname" placeholder="ivanov" tuiTextfield type="text" />
         </tui-input>
       </span>
-      <span style="display: flex; gap: 20px;">
+      <span style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
         <tui-input formControlName="username" [tuiHintContent]="'Enter your email'" [tuiTextfieldCleaner]="true"
           class="auth-form-field">
           Type an email
@@ -119,6 +109,22 @@
       {{ oauthFlowService.oauthError() }}
     </p>
     }
+  </div>
+  }
+  @if (carouselIndexSignal() === 0) {
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <span>Don't have an account?</span>
+    <button size="xs" tuiButton type="button" (click)="setIndex(1)">
+      <span style="font-weight: bold;" title="Sign Up">Sign Up</span>
+    </button>
+  </div>
+  }
+  @if (carouselIndexSignal() === 1) {
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <span>Have an account?</span>
+    <button size="xs" tuiButton type="button" (click)="setIndex(0)">
+      <span style="font-weight: bold;" title="Log In">Log In</span>
+    </button>
   </div>
   }
 </div>

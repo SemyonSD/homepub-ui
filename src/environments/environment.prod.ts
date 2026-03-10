@@ -10,7 +10,7 @@ export const environment = {
   oauth: {
     issuer: 'https://accounts.google.com',
     clientId: '1063796298360-ld2g54tbl3g08cvp9r8rig7i9vdrg8va.apps.googleusercontent.com',
-    redirectUri: 'http://localhost:4200/auth/callback',
+    redirectUri: 'https://semyonsd.github.io/auth/callback',
     scope: 'openid profile email',
     oauthOnly: false,
   },

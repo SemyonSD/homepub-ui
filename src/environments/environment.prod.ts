@@ -7,15 +7,13 @@ export const environment = {
    * To enable "Sign in with Google" (or another IdP), set the object below and ensure your
    * backend and Google Cloud Console redirect URI match this redirectUri, then rebuild.
    */
-  oauth: null as import('./environment.types').OAuthEnvironmentConfig | null,
-  // Example for production:
-  // oauth: {
-  //   issuer: 'https://accounts.google.com',
-  //   clientId: 'YOUR_PROD_CLIENT_ID.apps.googleusercontent.com',
-  //   redirectUri: 'https://your-app-domain.example.com/auth/callback',
-  //   scope: 'openid profile email',
-  //   oauthOnly: false,
-  // },
+  oauth: {
+    issuer: 'https://accounts.google.com',
+    clientId: '1063796298360-ld2g54tbl3g08cvp9r8rig7i9vdrg8va.apps.googleusercontent.com',
+    redirectUri: 'http://localhost:4200/auth/callback',
+    scope: 'openid profile email',
+    oauthOnly: false,
+  },
 };
 
 export type { OAuthEnvironmentConfig } from './environment.types';

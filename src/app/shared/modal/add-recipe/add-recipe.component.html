@@ -72,7 +72,7 @@
     <button tuiButton [size]="'s'" appearance="outline" class="tui-group__auto-width-item"
       type="button" (click)="calculateCalories()" tuiHintContent="Calculate from carbs, protein, fat">Auto</button>
   </div>
-  <tui-text-area formControlName="description" [expandable]="true" class="tui-form__row">
+  <tui-text-area formControlName="description" class="tui-form__row">
     Type a description
   </tui-text-area>
   <tui-error *ngFor="let error of this.formHelper?.getErrorsMessages('description')" [error]="error"></tui-error>

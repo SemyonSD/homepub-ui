@@ -13,9 +13,10 @@ import {
   TuiActionModule, TuiCarouselModule, TuiDataListWrapperModule, TuiFieldErrorPipeModule,
   TuiInputModule, TuiInputNumberModule, TuiInputPasswordModule,
   TuiInputTagModule, TuiIslandModule, TuiMultiSelectModule,
+  TuiProgressModule,
   TuiRoutableDialogModule, TuiSelectModule,
   TuiTagModule,
-  TuiTextAreaModule
+  TuiTextareaModule
 } from "@taiga-ui/kit";
 
 
@@ -40,7 +41,7 @@ import {
     TuiTextfieldControllerModule,
     TuiHostedDropdownModule,
     TuiExpandModule,
-    TuiTextAreaModule,
+    TuiTextareaModule,
     TuiErrorModule,
     TuiHintModule,
     TuiInputPasswordModule,
@@ -53,6 +54,7 @@ import {
     TuiDataListWrapperModule,
     TuiMultiSelectModule,
     TuiInputNumberModule,
+    TuiProgressModule,
   ],
   exports: [
     TuiRootModule,
@@ -72,7 +74,7 @@ import {
     TuiTextfieldControllerModule,
     TuiHostedDropdownModule,
     TuiExpandModule,
-    TuiTextAreaModule,
+    TuiTextareaModule,
     TuiErrorModule,
     TuiHintModule,
     TuiInputPasswordModule,
@@ -85,6 +87,7 @@ import {
     TuiDataListWrapperModule,
     TuiMultiSelectModule,
     TuiInputNumberModule,
+    TuiProgressModule,
   ]
 })
 export class TuiSharedModuleModule { }

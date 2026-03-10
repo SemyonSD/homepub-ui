@@ -2,27 +2,32 @@
   <h1 class="page__title">Recipes</h1>
 
   <div class="filter-row">
-    @if (hasActiveFilters()) {
-      <button type="button" class="filter-chip" (click)="clearFilters()">
-        <span class="filter-chip__label">Filters active</span>
-        <tui-svg src="tuiIconX" class="filter-chip__icon"></tui-svg>
-      </button>
-    }
     <div tuiGroup class="filter" [collapsed]="true">
-      <tui-primitive-textfield class="filter__field tui-group__inherit-item">
+      <tui-input
+        class="filter__field tui-group__inherit-item"
+        [formControl]="titleControl"
+        [tuiTextfieldCleaner]="true"
+      >
         <label tuiLabel>Title</label>
-        <input tuiTextfield [formControl]="titleControl" placeholder="Filter by recipe name" />
-      </tui-primitive-textfield>
+        <input tuiTextfield placeholder="Filter by recipe name" />
+      </tui-input>
       <tui-input-tag
         class="filter__field tui-group__inherit-item"
         [formControl]="ingredientsControl"
         placeholder="Ingredients"
         [uniqueTags]="true"
+        [tuiTextfieldCleaner]="true"
       >
         <label tuiLabel>Ingredients</label>
       </tui-input-tag>
     </div>
   </div>
+
+    <div class="progress-row" role="status" aria-live="polite" aria-label="Loading recipes">
+  @if (!recipesReceived()) {
+      <progress tuiProgressBar max="100" class="progress-row__bar"></progress>
+  }
+    </div>
 
   <div class="container" role="list">
     <ng-container *ngIf="recipes$ | async as list">
@@ -55,11 +60,4 @@
   </div>
 
   <router-outlet></router-outlet>
-
-  @if (!recipesReceived()) {
-    <div class="loading-overlay" role="status" aria-live="polite" aria-label="Loading recipes">
-      <app-animated-logo-icon class="loading-overlay__logo" [width]="80" [height]="98" [idle]="true"></app-animated-logo-icon>
-      <span class="loading-overlay__sr">Loading recipes</span>
-    </div>
-  }
 </div>

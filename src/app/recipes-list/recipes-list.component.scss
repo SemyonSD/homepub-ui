@@ -17,7 +17,19 @@
   flex-wrap: wrap;
   align-items: center;
   gap: $space-16;
+  margin-bottom: $space-10;
+}
+
+.progress-row {
+  width: 100%;
+  height: 6px;
   margin-bottom: $space-20;
+
+  &__bar {
+    width: 100%;
+    height: 6px;
+    --t-height: 6px;
+  }
 }
 
 .filter-chip {
@@ -153,56 +165,5 @@
   @media (max-width: 400px) {
     width: 100%;
     min-height: 120px;
-  }
-}
-
-.loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.65);
-  animation: overlayFadeIn 0.35s ease-out;
-
-  &__logo {
-    animation: logoPulse 1.5s ease-in-out infinite;
-  }
-
-  &__sr {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-}
-
-@keyframes overlayFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes logoPulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.05);
   }
 }

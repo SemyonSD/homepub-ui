@@ -1,6 +1,9 @@
 <tui-block-status [card]="true" class="card">
-  <button tuiIconButton type="button" class="delete-button"
-    [icon]="isSubMenuOpen ? 'tuiIconCornerLeftDown' : 'tuiIconMoreHorizontalLarge'" appearance="outline"
+  <button tuiIconButton type="button" class="card__menu-button"
+    [icon]="isSubMenuOpen ? 'tuiIconX' : 'tuiIconMoreHorizontalLarge'"
+    appearance="flat"
+    tuiHintContent="{{ isSubMenuOpen ? 'Close' : 'Options' }}"
+    tuiHintDirection="left"
     (click)="toggleSubMenu()">
   </button>
   <div *ngIf="isSubMenuOpen" class="sub-menu">
@@ -11,29 +14,35 @@
       Delete
     </button>
   </div>
-  <div class="tui-text_h3" style="margin-bottom: 2rem">
-    {{recipe()?.title}}
+  <h3 class="card__title">{{ recipe()?.title }}</h3>
+  <div class="card__nutrition" *ngIf="hasNutrition()">
+    <div style="height: 24px">
+      @if (recipe()?.calories != null) {
+        <span class="card__calories">calories: {{ recipe()?.calories }}kcal</span>
+      }
+    </div>
+    <div style="height: 24px;">
+      @if (recipe()?.carbs != null || recipe()?.protein != null || recipe()?.fat != null) {
+        <span class="card__macros">
+          @if (recipe()?.carbs != null) { carbs: {{ recipe()?.carbs }}g }
+          @if (recipe()?.protein != null) { / protein: {{ recipe()?.protein }}g }
+          @if (recipe()?.fat != null) { / fat: {{ recipe()?.fat }}g }
+        </span>
+      }
+    </div>
   </div>
-  <div>
-    @if (recipe()?.carbs != null) { carbs: {{ recipe()?.carbs }}g / }
-    @if (recipe()?.protein != null) { protein: {{ recipe()?.protein }}g / }
-    @if (recipe()?.fat != null) { fat: {{ recipe()?.fat }}g }
-  </div>
-  <div>
-    @if (recipe()?.calories != null) { calories: {{ recipe()?.calories }}kcal }
-  </div>
-  <tui-expand [expanded]="true" class="expandable">
-    <tui-scrollbar class="card_content">
-      <div *ngFor="let ingredient of recipe()?.ingredients">
-        <div class="d-fx ai-c gap-5">
-          <span>{{ingredient.name}}</span>
-          <span>{{ingredient.measurementValue}}</span>
-          <span>{{ingredient.measurementName.label}}</span>
+  <div class="card__ingredients-block">
+    <span class="card__ingredients-label">Ingredients</span>
+    <tui-expand [expanded]="true" class="expandable">
+      <tui-scrollbar class="card_content">
+        <div *ngFor="let ingredient of recipe()?.ingredients" class="card__ingredient-row">
+          <span>{{ ingredient.name }}</span>
+          <span>{{ ingredient.measurementValue }} {{ ingredient.measurementName.label }}</span>
         </div>
-      </div>
-    </tui-scrollbar>
-  </tui-expand>
-  <button tuiButton type="button" appearance="outline" style="position: absolute; height: 20px; bottom: 20px;"
+      </tui-scrollbar>
+    </tui-expand>
+  </div>
+  <button tuiButton type="button" appearance="primary" class="card__cta"
     (click)="showRecipeDescription()">
     Show recipe
   </button>

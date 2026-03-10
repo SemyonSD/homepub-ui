@@ -5,14 +5,15 @@
   </tui-primitive-textfield>
   <app-recipe-card *ngFor="let recipe of recipes$ | async; trackBy: identify" [recipe]="recipe" @tuiFadeIn>
   </app-recipe-card>
-  <button tuiAction type="button" class="button" routerLink="new">
-    <tui-svg [src]="'tuiIconPlusSquareLarge'"></tui-svg>
-  </button>
+  <a tuiAction type="button" class="add-recipe-tile" routerLink="new">
+    <tui-svg [src]="'tuiIconPlusSquareLarge'" class="add-recipe-tile__icon"></tui-svg>
+    <span class="add-recipe-tile__label">Add recipe</span>
+  </a>
   <router-outlet></router-outlet>
   @if(!recipesReceived()) {
     <div class="loading-overlay">
+      <!-- <app-cocktail-pour-loader></app-cocktail-pour-loader> -->
       <app-animated-logo-icon class="loading-overlay__logo" [width]="80" [height]="98" [idle]="true"></app-animated-logo-icon>
     </div>
   }
-
 </div>

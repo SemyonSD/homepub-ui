@@ -1,2 +1,36 @@
-$gradient-bg-dark: linear-gradient(225deg, #2b2b2b, #535353);
-$gradient-bg-dark-2: linear-gradient(91deg, #7d7d7d, #535353);
+@use "palettes" as p;
+
+// ─── Choose palette (amber | teal | coral | vibrant | warm | pastel | sunset | marigold | slate | emerald) ─
+$active-palette: p.$palette-irish-pub;
+
+$primary: map-get($active-palette, primary);
+$primary-hover: map-get($active-palette, primary-hover);
+$primary-muted: map-get($active-palette, primary-muted);
+
+// ─── Accent color (Taiga: appearance="accent") ──────────────────────────────
+$accent: #b13a3a;
+$accent-hover: #c95252;
+$accent-active: #9a3232;
+$accent-text: #fff;
+
+$gradient-bg-dark: map-get($active-palette, gradient-header);
+$gradient-bg-dark-2: map-get($active-palette, gradient-content);
+$gradient-card: map-get($active-palette, gradient-card);
+$surface: map-get($active-palette, surface);
+$surface-elevated: map-get($active-palette, surface-elevated);
+$text-primary: map-get($active-palette, text);
+$text-muted: map-get($active-palette, text-muted);
+$border-subtle: map-get($active-palette, border);
+$success: map-get($active-palette, success);
+$error: map-get($active-palette, error);
+
+// Spacing scale (8px base)
+$space-4: 4px;
+$space-8: 8px;
+$space-12: 12px;
+$space-16: 16px;
+$space-20: 20px;
+$space-24: 24px;
+
+// Secondary text (WCAG); can use $text-muted from palette instead
+$text-secondary-night: $text-muted;

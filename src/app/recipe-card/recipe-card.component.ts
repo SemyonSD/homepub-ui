@@ -42,4 +42,9 @@ export class RecipeCardComponent {
   public toggleSubMenu() {
     this.isSubMenuOpen = !this.isSubMenuOpen;
   }
+
+  public hasNutrition(): boolean {
+    const r = this.recipe();
+    return r != null && (r.calories != null || r.carbs != null || r.protein != null || r.fat != null);
+  }
 }

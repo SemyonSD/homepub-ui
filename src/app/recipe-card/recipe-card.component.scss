@@ -1,15 +1,94 @@
 @import "../../assets/styles/variables";
 
 .card {
-  background-image: $gradient-bg-dark;
+  background-image: $gradient-card;
   justify-content: space-between;
   flex-direction: column;
   width: 350px;
-  height: 400px;
+  min-height: 400px;
   position: relative;
+  padding: $space-16;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  border: 1px solid $border-subtle;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--tui-primary);
+    outline-offset: 2px;
+  }
+
+  &__menu-button {
+    position: absolute;
+    top: $space-8;
+    right: $space-8;
+    z-index: 2;
+  }
+
+  &__title {
+    margin: 0 0 $space-16;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--tui-text-01-night);
+    padding-right: 40px;
+  }
+
+  &__nutrition {
+    display: flex;
+    flex-direction: column;
+    gap: $space-4;
+    margin-bottom: $space-12;
+    font-size: 0.875rem;
+    color: $text-secondary-night;
+  }
+
+  &__calories {
+    font-weight: 500;
+  }
+
+  &__macros {
+    opacity: 0.9;
+  }
+
+  &__ingredients-block {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $space-8;
+  }
+
+  &__ingredients-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $text-secondary-night;
+  }
+
+  &__ingredient-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-8;
+    padding: $space-4 0;
+    border-bottom: 1px solid;
+    font-size: 0.875rem;
+    color: $text-secondary-night;
+  }
 
   &_content {
     height: calc(200px - 3rem);
+  }
+
+  &__cta {
+    margin-top: $space-16;
+    min-height: 40px;
+    width: 100%;
   }
 }
 
@@ -18,44 +97,19 @@ tui-expand {
   min-height: 100%;
 }
 
-.list {
-  padding-top: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.delete-button {
-  transform: rotateZ(45deg);
-  position: absolute;
-  top: 0;
-  right: -58px;
-  width: 150px !important;
-  height: 35px !important;
-  z-index: 2;
-
-
-  ::ng-deep {
-    tui-svg {
-      transform: rotateZ(45deg);
-    }
-  }
-}
-
 .sub-menu {
-  right: 0;
-  top: 0;
   position: absolute;
+  inset: 0;
   z-index: 1;
-  background: #424242f5;
-  height: 100%;
-  width: 100%;
+  background: rgba(66, 66, 66, 0.96);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   box-sizing: border-box;
-  padding: 0 80px;
-  gap: 20px;
+  padding: $space-16;
+  gap: $space-16;
+  border-radius: inherit;
 }
 
 tui-tag {

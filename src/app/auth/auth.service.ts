@@ -23,6 +23,10 @@ export class AuthService {
   private _refreshToken: WritableSignal<string | null> = signal(null);
   private _profile: WritableSignal<UserProfile | null> = signal(null);
 
+  /** Single stable signal so templates react when token changes (e.g. after logout). */
+  readonly token = computed(() => this._token() ?? localStorage.getItem(ACCESS_TOKEN));
+  readonly refreshTokenSignal = computed(() => this._refreshToken() ?? localStorage.getItem(REFRESH_TOKEN));
+
   constructor(
     private api: ApiService,
     @Optional() private oauthService: OAuthService | null
@@ -70,33 +74,31 @@ export class AuthService {
 
   /**
    * Calls backend to invalidate the refresh token, then clears local tokens.
-   * For OAuth: revokes locally and optionally logs out from IdP.
+   * Revokes local token first so the UI updates immediately (e.g. logout button hides).
    */
   public logout(): Observable<void> {
+    const refreshTokenValue = this.getRefreshToken();
+    this.revokeToken();
+
     if (this.isOAuthUser() && this.oauthService) {
       this.oauthService.logOut();
-      this.revokeToken();
       return new Observable(obs => { obs.next(); obs.complete(); });
     }
-    const refreshToken = this.getRefreshToken();
-    const req = refreshToken
+    const req = refreshTokenValue
+      ? this.api.logout(refreshTokenValue)
+      : new Observable<void>(obs => { obs.next(); obs.complete(); });
+    return req;
+  }
+
+  /** Only calls backend to invalidate refresh token. Does not clear local state. */
+  public logoutBackend(refreshToken: string | null): Observable<void> {
+    if (this.isOAuthUser() && this.oauthService) {
+      this.oauthService.logOut();
+      return new Observable(obs => { obs.next(); obs.complete(); });
+    }
+    return refreshToken
       ? this.api.logout(refreshToken)
       : new Observable<void>(obs => { obs.next(); obs.complete(); });
-    return req.pipe(
-      tap(() => this.revokeToken())
-    );
-  }
-
-  public get token(): Signal<string | null> {
-    return computed(() => this._token() ?? localStorage.getItem(ACCESS_TOKEN));
-  }
-
-  public get refreshToken(): Signal<string | null> {
-    return computed(() => this._refreshToken() ?? localStorage.getItem(REFRESH_TOKEN));
-  }
-
-  public set token(token: TokenResponse) {
-    this.setTokens(token);
   }
 
   public setTokens(token: TokenResponse): void {

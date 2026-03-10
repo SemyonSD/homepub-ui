@@ -1,5 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+@import "assets/styles/variables";
 @import "assets/styles/atomic";
+
+/* Theme: palette primary + custom accent for Taiga */
+tui-root {
+  --tui-primary: #{$primary};
+  --tui-primary-hover: #{$primary-hover};
+  --tui-accent: #{$accent};
+  --tui-accent-hover: #{$accent-hover};
+  --tui-accent-active: #{$accent-active};
+  --tui-accent-text: #{$accent-text};
+}
+
+/* Accessibility: visible focus for keyboard users */
+:where(input, button, [tuiButton], [tuiIconButton], a[routerLink]):focus-visible {
+  outline: 2px solid var(--tui-primary);
+  outline-offset: 2px;
+}
 
 .card {
   .t-block-text {

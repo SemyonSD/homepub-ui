@@ -1,7 +1,9 @@
+@import "../../assets/styles/variables";
+
 .container {
   display: flex;
-  gap: 20px;
-  padding: 20p 0x;
+  gap: $space-20;
+  padding: 20px 0;
   flex-wrap: wrap;
 
   :host-context(tui-root._mobile) & {
@@ -11,6 +13,50 @@
 
 .filter {
   flex: 1 1 100%;
+
+  input {
+    caret-color: var(--tui-primary);
+  }
+}
+
+.add-recipe-tile {
+  box-sizing: border-box;
+  width: 350px;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: $space-16;
+  background: $surface-elevated;
+  border: 2px dashed $border-subtle;
+  border-radius: var(--tui-radius-l, 12px);
+  color: var(--tui-text-02-night);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.45);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--tui-text-01-night);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--tui-primary);
+    outline-offset: 2px;
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    opacity: 0.8;
+  }
+
+  &__label {
+    font-size: 1rem;
+    font-weight: 600;
+  }
 }
 
 .loading-overlay {
@@ -57,15 +103,3 @@
   top: -40%;
   right: -62%;
 }
-
-.button {
-  box-sizing: border-box;
-  background: var(--tui-base-03);
-  height: 400px;
-  width: 100px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-

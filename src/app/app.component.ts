@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {AuthService} from "./auth/auth.service";
 import {Router} from "@angular/router";
 
@@ -12,7 +12,12 @@ export class AppComponent implements OnInit {
   public hasToken = this.authService.token;
   public profile = this.authService.profile;
 
-  constructor(private readonly authService: AuthService, private readonly router: Router) {
+  private cdr = inject(ChangeDetectorRef);
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router,
+  ) {
   }
 
   ngOnInit(): void {
@@ -22,12 +27,13 @@ export class AppComponent implements OnInit {
   }
 
   public logOut(): void {
-    this.authService.logout().subscribe({
+    const refreshToken = this.authService.getRefreshToken();
+    this.authService.revokeToken();
+    this.cdr.detectChanges();
+
+    this.authService.logoutBackend(refreshToken).subscribe({
       next: () => this.router.navigate(['/auth']),
-      error: () => {
-        this.authService.revokeToken();
-        this.router.navigate(['/auth']).then();
-      }
+      error: () => this.router.navigate(['/auth']),
     });
   }
 }

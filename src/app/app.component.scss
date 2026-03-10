@@ -1,7 +1,7 @@
 @import "../assets/styles/variables";
 
 .header {
-  background-image: $gradient-bg-dark;
+  background: $gradient-bg-dark;
   height: 100px;
   width: 100%;
   display: flex;
@@ -18,7 +18,7 @@
 }
 
 .content {
-  background-image: $gradient-bg-dark-2;
+  background: $gradient-bg-dark-2;
   width: 100%;
   min-height: calc(100vh - 100px);
   position: absolute;

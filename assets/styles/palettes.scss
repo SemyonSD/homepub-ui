@@ -1,0 +1,264 @@
+// HomePub color palettes (dark theme)
+// Pick one and set it in variables.scss via @use/import, then override --tui-primary in styles.scss if using Taiga.
+
+// ---------------------------------------------------------------------------
+// 1. AMBER & CHARCOAL (warm, bar-like) — default
+// ---------------------------------------------------------------------------
+$palette-amber: (
+  primary: #e4a853,
+  primary-hover: #eab96d,
+  primary-muted: rgba(228, 168, 83, 0.2),
+  background: #1c1c1c,
+  surface: #2b2b2b,
+  surface-elevated: #383838,
+  text: #f5f5f5,
+  text-muted: rgba(255, 255, 255, 0.78),
+  border: rgba(255, 255, 255, 0.12),
+  success: #6b9e78,
+  error: #c75c5c,
+  gradient-header: #2b2b2b,
+  gradient-content: #2e2e2e,
+  gradient-card: linear-gradient(225deg, #424242, #525252),
+);
+
+// ---------------------------------------------------------------------------
+// 2. TEAL & SLATE (cool, modern)
+// ---------------------------------------------------------------------------
+$palette-teal: (
+  primary: #2dd4bf,
+  primary-hover: #5eead4,
+  primary-muted: rgba(45, 212, 191, 0.2),
+  background: #0f172a,
+  surface: #1e293b,
+  surface-elevated: #334155,
+  text: #f1f5f9,
+  text-muted: rgba(241, 245, 249, 0.78),
+  border: rgba(255, 255, 255, 0.1),
+  success: #34d399,
+  error: #f87171,
+  gradient-header: linear-gradient(225deg, #1e293b, #0f172a),
+  gradient-content: linear-gradient(91deg, #334155, #1e293b),
+  gradient-card: linear-gradient(225deg, #334155, #475569),
+);
+
+// ---------------------------------------------------------------------------
+// 3. CORAL & NAVY (bold, distinctive)
+// ---------------------------------------------------------------------------
+$palette-coral: (
+  primary: #f97316,
+  primary-hover: #fb923c,
+  primary-muted: rgba(249, 115, 22, 0.2),
+  background: #0c1222,
+  surface: #1a2744,
+  surface-elevated: #243b5c,
+  text: #f8fafc,
+  text-muted: rgba(248, 250, 252, 0.78),
+  border: rgba(255, 255, 255, 0.1),
+  success: #4ade80,
+  error: #f87171,
+  gradient-header: linear-gradient(225deg, #1a2744, #2d1f14),
+  gradient-content: linear-gradient(91deg, #2d1f14, #1a2744),
+  gradient-card: linear-gradient(225deg, #243b5c, #334155),
+);
+
+// ---------------------------------------------------------------------------
+// 4. VIBRANT (lemon, coral, sky blue, beige)
+// ---------------------------------------------------------------------------
+$palette-vibrant: (
+  primary: #f88379,
+  primary-hover: #fa9d95,
+  primary-muted: rgba(248, 131, 121, 0.25),
+  background: #1a2530,
+  surface: #24303d,
+  surface-elevated: #2f3d4d,
+  text: #f5f5f5,
+  text-muted: rgba(230, 216, 196, 0.9),
+  border: rgba(130, 200, 229, 0.15),
+  success: #6b9e78,
+  error: #e57373,
+  gradient-header: linear-gradient(225deg, #24303d, #1e2a36),
+  gradient-content: linear-gradient(91deg, #2a3847, #1a2530),
+  gradient-card: linear-gradient(225deg, #2f3d4d, #3d4d5c),
+);
+
+// ---------------------------------------------------------------------------
+// 5. WARM (cream, golden beige, dusty rose, taupe)
+// ---------------------------------------------------------------------------
+$palette-warm: (
+  primary: #e8d59e,
+  primary-hover: #f7e6ca,
+  primary-muted: rgba(232, 213, 158, 0.25),
+  background: #2c2620,
+  surface: #3d352d,
+  surface-elevated: #4a4238,
+  text: #f7e6ca,
+  text-muted: rgba(247, 230, 202, 0.82),
+  border: rgba(217, 187, 176, 0.2),
+  success: #6b9e78,
+  error: #c75c5c,
+  gradient-header: linear-gradient(225deg, #3d352d, #2c2620),
+  gradient-content: linear-gradient(91deg, #4a4238, #3d352d),
+  gradient-card: linear-gradient(225deg, #4a4238, #5c5246),
+);
+
+// ---------------------------------------------------------------------------
+// 6. PASTEL (light pink, white, mint green, medium pink)
+// ---------------------------------------------------------------------------
+$palette-pastel: (
+  primary: #ffb7c5,
+  primary-hover: #ffc9d4,
+  primary-muted: rgba(255, 183, 197, 0.25),
+  background: #2a2528,
+  surface: #383238,
+  surface-elevated: #453e44,
+  text: #ffffff,
+  text-muted: rgba(242, 199, 199, 0.88),
+  border: rgba(213, 243, 216, 0.15),
+  success: #7bc98a,
+  error: #e57373,
+  gradient-header: linear-gradient(225deg, #383238, #2e292c),
+  gradient-content: linear-gradient(91deg, #453e44, #2a2528),
+  gradient-card: linear-gradient(225deg, #453e44, #524a50),
+);
+
+// ---------------------------------------------------------------------------
+// 7. SUNSET (orange-red, light pink, light yellow, teal)
+// ---------------------------------------------------------------------------
+$palette-sunset: (
+  primary: #ff8243,
+  primary-hover: #ff9a62,
+  primary-muted: rgba(255, 130, 67, 0.25),
+  background: #0d1f1f,
+  surface: #1a2d2d,
+  surface-elevated: #243d3d,
+  text: #f5f5f5,
+  text-muted: rgba(252, 232, 131, 0.85),
+  border: rgba(6, 148, 148, 0.2),
+  success: #069494,
+  error: #e57373,
+  gradient-header: linear-gradient(225deg, #1a2d2d, #152222),
+  gradient-content: linear-gradient(91deg, #243d3d, #1a2d2d),
+  gradient-card: linear-gradient(225deg, #243d3d, #2f4d4d),
+);
+
+// ---------------------------------------------------------------------------
+// 8. MARIGOLD (bright yellow, olive-gold, lavender, cream)
+// ---------------------------------------------------------------------------
+$palette-marigold: (
+  primary: #ffbf00,
+  primary-hover: #ffcc33,
+  primary-muted: rgba(255, 191, 0, 0.25),
+  background: #252218,
+  surface: #352f22,
+  surface-elevated: #453d2d,
+  text: #fff8dc,
+  text-muted: rgba(255, 248, 220, 0.85),
+  border: rgba(224, 176, 255, 0.15),
+  success: #6b9e78,
+  error: #e57373,
+  gradient-header: linear-gradient(225deg, #352f22, #252218),
+  gradient-content: linear-gradient(91deg, #453d2d, #352f22),
+  gradient-card: linear-gradient(225deg, #453d2d, #554a38),
+);
+
+// ---------------------------------------------------------------------------
+// 10. EMERALD (forest green, deep jade, rich pub vibes — Battletoad #0ECC5A)
+// ---------------------------------------------------------------------------
+$palette-emerald: (
+  primary: #0ECC5A,
+  primary-hover: #2fdb70,
+  primary-muted: rgba(14, 204, 90, 0.2),
+  background: #111c16,
+  surface: #1a2d21,
+  surface-elevated: #243d2d,
+  text: #e8f5e9,
+  text-muted: rgba(232, 245, 233, 0.82),
+  border: rgba(14, 204, 90, 0.15),
+  success: #4ade80,
+  error: #f87171,
+  gradient-header: linear-gradient(225deg, #1a2d21, #111c16),
+  gradient-content: linear-gradient(91deg, #243d2d, #1a2d21),
+  gradient-card: linear-gradient(225deg, #243d2d, #2f4d38),
+);
+
+// ---------------------------------------------------------------------------
+// 9. SLATE (dark gray, light gray, cream, muted blue)
+// ---------------------------------------------------------------------------
+$palette-slate: (
+  primary: #6d8196,
+  primary-hover: #8499ad,
+  primary-muted: rgba(109, 129, 150, 0.25),
+  background: #2d2d2d,
+  surface: #4a4a4a,
+  surface-elevated: #5a5a5a,
+  text: #ffffe3,
+  text-muted: rgba(255, 255, 227, 0.85),
+  border: rgba(203, 203, 203, 0.2),
+  success: #6b9e78,
+  error: #e57373,
+  gradient-header: linear-gradient(225deg, #4a4a4a, #3a3a3a),
+  gradient-content: linear-gradient(91deg, #4a4a4a, #2d2d2d),
+  gradient-card: linear-gradient(225deg, #4a4a4a, #5a5a5a),
+);
+
+// ---------------------------------------------------------------------------
+// 11. DUSTY SAGE (Coolors: dusty rose, taupe, sage gray, forest green)
+// Source: https://coolors.co/efd0ca-c1bcac-979b8d-5c7457
+// ---------------------------------------------------------------------------
+$palette-dusty-sage: (
+  primary: #5c7457,
+  primary-hover: #6d8767,
+  primary-muted: rgba(92, 116, 87, 0.25),
+  background: #1c201a,
+  surface: #2a2e26,
+  surface-elevated: #383d33,
+  text: #efd0ca,
+  text-muted: rgba(239, 208, 202, 0.85),
+  border: rgba(151, 155, 141, 0.2),
+  success: #5c7457,
+  error: #c75c5c,
+  gradient-header: linear-gradient(225deg, #2a2e26, #1c201a),
+  gradient-content: linear-gradient(91deg, #383d33, #2a2e26),
+  gradient-card: linear-gradient(225deg, #383d33, #454a3e),
+);
+
+// ---------------------------------------------------------------------------
+// 12. NAVY & CYAN (Coolors: dark navy, coral, lime, off-white, sky blue)
+// Source: https://coolors.co/212738-f97068-d1d646-edf2ef-57c4e5
+// ---------------------------------------------------------------------------
+$palette-navy-cyan: (
+  primary: #57c4e5,
+  primary-hover: #7dd0eb,
+  primary-muted: rgba(87, 196, 229, 0.25),
+  background: #212738,
+  surface: #2a3142,
+  surface-elevated: #343d52,
+  text: #edf2ef,
+  text-muted: rgba(237, 242, 239, 0.85),
+  border: rgba(87, 196, 229, 0.2),
+  success: #d1d646,
+  error: #f97068,
+  gradient-header: linear-gradient(225deg, #2a3142, #212738),
+  gradient-content: linear-gradient(91deg, #343d52, #2a3142),
+  gradient-card: linear-gradient(225deg, #343d52, #3d4860),
+);
+
+// ---------------------------------------------------------------------------
+// 13. IRISH PUB (dark wood, bottle green, brass, cream — cozy traditional)
+// ---------------------------------------------------------------------------
+$palette-irish-pub: (
+  primary: #3d6b4f,
+  primary-hover: #4a7d5e,
+  primary-muted: rgba(61, 107, 79, 0.25),
+  background: #1c1612,
+  surface: #2d231c,
+  surface-elevated: #3d3026,
+  text: #f2e9e0,
+  text-muted: rgba(242, 233, 224, 0.85),
+  border: rgba(196, 160, 53, 0.18),
+  success: #3d6b4f,
+  error: #b85450,
+  gradient-header: linear-gradient(225deg, #2d231c, #1c1612),
+  gradient-content: linear-gradient(91deg, #3d3026, #2d231c),
+  gradient-card: linear-gradient(225deg, #3d3026, #4a3d30),
+);

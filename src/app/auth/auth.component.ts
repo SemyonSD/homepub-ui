@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {fromPromise} from "rxjs/internal/observable/innerFrom";
 import {HttpError} from "../shared/interfaces/http-error.interface";
 import {HttpErrorResponse} from "@angular/common/http";
+import {Title} from "@angular/platform-browser";
 import {TuiValidationError} from "@taiga-ui/cdk";
 
 interface AuthForm {
@@ -45,10 +46,16 @@ export class AuthComponent implements OnInit {
   public carouselIndexSignal: WritableSignal<number> = signal(0);
   public userFieldSignal: WritableSignal<string[]> = signal([]);
 
-  constructor(public authService: AuthService, public oauthFlowService: OAuthFlowService, private router: Router, private cd: ChangeDetectorRef) {
-  }
+  constructor(
+    public authService: AuthService,
+    public oauthFlowService: OAuthFlowService,
+    private router: Router,
+    private cd: ChangeDetectorRef,
+    private title: Title
+  ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
+    this.title.setTitle(this.carouselIndexSignal() === 0 ? 'Sign In – HomePub' : 'Sign Up – HomePub');
   }
 
   public signIn(): void {
@@ -94,6 +101,7 @@ export class AuthComponent implements OnInit {
 
   public setIndex(idx: number): void {
     this.carouselIndexSignal.set(idx);
+    this.title.setTitle(idx === 0 ? 'Sign In – HomePub' : 'Sign Up – HomePub');
   }
 
   public loginWithOAuth(event?: Event): void {

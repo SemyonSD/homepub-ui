@@ -1,19 +1,65 @@
-<div class="container">
-  <tui-primitive-textfield class="filter">
-    <label tuiLabel>Filter recipes by name</label>
-    <input tuiTextfield [formControl]="filterControl" />
-  </tui-primitive-textfield>
-  <app-recipe-card *ngFor="let recipe of recipes$ | async; trackBy: identify" [recipe]="recipe" @tuiFadeIn>
-  </app-recipe-card>
-  <a tuiAction type="button" class="add-recipe-tile" routerLink="new">
-    <tui-svg [src]="'tuiIconPlusSquareLarge'" class="add-recipe-tile__icon"></tui-svg>
-    <span class="add-recipe-tile__label">Add recipe</span>
-  </a>
+<div class="page" [attr.aria-busy]="!recipesReceived()">
+  <h1 class="page__title">Recipes</h1>
+
+  <div class="filter-row">
+    @if (hasActiveFilters()) {
+      <button type="button" class="filter-chip" (click)="clearFilters()">
+        <span class="filter-chip__label">Filters active</span>
+        <tui-svg src="tuiIconX" class="filter-chip__icon"></tui-svg>
+      </button>
+    }
+    <div tuiGroup class="filter" [collapsed]="true">
+      <tui-primitive-textfield class="filter__field tui-group__inherit-item">
+        <label tuiLabel>Title</label>
+        <input tuiTextfield [formControl]="titleControl" placeholder="Filter by recipe name" />
+      </tui-primitive-textfield>
+      <tui-input-tag
+        class="filter__field tui-group__inherit-item"
+        [formControl]="ingredientsControl"
+        placeholder="Ingredients"
+        [uniqueTags]="true"
+      >
+        <label tuiLabel>Ingredients</label>
+      </tui-input-tag>
+    </div>
+  </div>
+
+  <div class="container" role="list">
+    <ng-container *ngIf="recipes$ | async as list">
+      @if (recipesReceived() && list.length === 0) {
+        <div class="empty-state" role="status">
+          <tui-svg src="tuiIconSearchLarge" class="empty-state__icon"></tui-svg>
+          <p class="empty-state__title">{{ hasActiveFilters() ? 'No recipes match your filters' : 'No recipes yet' }}</p>
+          <p class="empty-state__hint">{{ hasActiveFilters() ? 'Try changing or clearing filters.' : 'Add your first recipe to get started.' }}</p>
+          @if (hasActiveFilters()) {
+            <button tuiButton appearance="secondary" type="button" (click)="clearFilters()">Clear filters</button>
+          } @else {
+            <a tuiButton appearance="primary" routerLink="new">Add your first recipe</a>
+          }
+        </div>
+      }
+      @if (list.length > 0) {
+        @for (recipe of list; track identify($index, recipe)) {
+          <div class="container__card-wrapper" role="listitem">
+            <app-recipe-card [recipe]="recipe" @tuiFadeIn />
+          </div>
+        }
+      }
+      @if (recipesReceived() && list.length > 0) {
+        <a tuiAction type="button" class="add-recipe-tile" routerLink="new" aria-label="Add recipe">
+          <tui-svg [src]="'tuiIconPlusSquareLarge'" class="add-recipe-tile__icon"></tui-svg>
+          <span class="add-recipe-tile__label">Add recipe</span>
+        </a>
+      }
+    </ng-container>
+  </div>
+
   <router-outlet></router-outlet>
-  @if(!recipesReceived()) {
-    <div class="loading-overlay">
-      <!-- <app-cocktail-pour-loader></app-cocktail-pour-loader> -->
+
+  @if (!recipesReceived()) {
+    <div class="loading-overlay" role="status" aria-live="polite" aria-label="Loading recipes">
       <app-animated-logo-icon class="loading-overlay__logo" [width]="80" [height]="98" [idle]="true"></app-animated-logo-icon>
+      <span class="loading-overlay__sr">Loading recipes</span>
     </div>
   }
 </div>

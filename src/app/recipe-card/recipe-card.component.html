@@ -4,7 +4,8 @@
     appearance="flat"
     tuiHintContent="{{ isSubMenuOpen ? 'Close' : 'Options' }}"
     tuiHintDirection="left"
-    (click)="toggleSubMenu()">
+    (click)="toggleSubMenu()"
+    [attr.aria-label]="isSubMenuOpen ? 'Close menu' : 'Recipe options'">
   </button>
   <div *ngIf="isSubMenuOpen" class="sub-menu">
     <button tuiButton appearance="outline" (click)="editRecipe()">
@@ -16,12 +17,12 @@
   </div>
   <h3 class="card__title">{{ recipe()?.title }}</h3>
   <div class="card__nutrition" *ngIf="hasNutrition()">
-    <div style="height: 24px">
+    <div class="card__nutrition-row">
       @if (recipe()?.calories != null) {
         <span class="card__calories">calories: {{ recipe()?.calories }}kcal</span>
       }
     </div>
-    <div style="height: 24px;">
+    <div class="card__nutrition-row">
       @if (recipe()?.carbs != null || recipe()?.protein != null || recipe()?.fat != null) {
         <span class="card__macros">
           @if (recipe()?.carbs != null) { carbs: {{ recipe()?.carbs }}g }

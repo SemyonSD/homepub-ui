@@ -1,16 +1,17 @@
 <tui-theme-night></tui-theme-night>
 <tui-root tuiMode="onDark">
-  <div class="header tui-text_h1 flex-row jc-sb">
-    <tui-svg src="assets/icons/svg/logo/logo-white-on-transparent-background.svg" class="icon"></tui-svg>
+  <header class="header tui-text_h1 flex-row jc-sb" role="banner">
+    <tui-svg src="assets/icons/svg/logo/logo-white-on-transparent-background.svg" class="icon" aria-hidden="true"></tui-svg>
     <button tuiHintContent="Log Out" tuiHintDirection="bottom" appearance="flat" tuiButton type="button"
-      *ngIf="hasToken()" (click)="logOut()">
+      *ngIf="hasToken()" (click)="logOut()" aria-label="Log out">
       <span class="user-name" *ngIf="profile()">{{ profile()!.name }} {{ profile()!.surname }}</span>
-      <tui-svg src="tuiIconLogOutLarge"></tui-svg>
+      <tui-svg src="tuiIconLogOutLarge" aria-hidden="true"></tui-svg>
     </button>
-  </div>
+  </header>
 
-  <div class="content">
-    
-    <router-outlet></router-outlet>
-  </div>
+  <main class="content" role="main">
+    <div class="content__inner">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
 </tui-root>

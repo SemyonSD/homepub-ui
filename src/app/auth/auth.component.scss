@@ -26,6 +26,68 @@ form {
   gap: 20px;
 }
 
+.auth-title {
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  &--signin {
+    width: 200px;
+    text-align: center;
+    line-height: 70px;
+  }
+
+  &--signup {
+    width: 240px;
+    text-align: center;
+    line-height: 70px;
+  }
+}
+
+.auth-forms {
+  display: flex;
+}
+
+.auth-form {
+  margin-bottom: auto;
+}
+
+.auth-form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.auth-form-row--signup {
+  margin-bottom: 0;
+}
+
+.oauth-section {
+  margin-bottom: 1rem;
+
+  &__icon {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+}
+
+.oauth-error {
+  color: var(--tui-status-negative);
+  margin-top: 0.5rem;
+}
+
+.auth-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth-switch__bold {
+  font-weight: bold;
+}
+
 .divider {
   width: 100%;
   display: flex;

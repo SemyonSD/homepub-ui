@@ -26,11 +26,16 @@ export class RecipeCardComponent {
     }
   }
 
-  public deleteRecipe() {
-    if (!this.recipe()?.id) {
-      throw Error('Id not found')
+  public deleteRecipe(): void {
+    const r = this.recipe();
+    if (!r?.id) {
+      throw new Error('Id not found');
     }
-    this.recipesService.deleteRecipe(this.recipe()?.id as string).subscribe()
+    const message = `Delete "${r.title}"? This can't be undone.`;
+    if (confirm(message)) {
+      this.recipesService.deleteRecipe(r.id).subscribe();
+      this.toggleSubMenu();
+    }
   }
 
   public editRecipe() {

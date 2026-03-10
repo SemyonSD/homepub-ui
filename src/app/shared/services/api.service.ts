@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Recipe } from '../models/recipe.model';
@@ -95,17 +95,22 @@ export class ApiService {
   // ─── Recipes ───────────────────────────────────────────────────────────────
 
   /**
-   * Fetch recipes for the current user. Optional title filters by partial match (case-insensitive).
-   * Omit title or pass empty string to get all recipes.
+   * Fetch recipes for the current user. Optional title and ingredients filters.
+   * Omit both or pass empty to get all recipes.
    */
-  recipesGetAll(title?: string): Observable<Recipe[]> {
-    const params =
-      typeof title === 'string' && title.trim()
-        ? { title: title.trim() }
-        : undefined;
-    return this.http
-      .get<Recipe[]>('recipes', { params, observe: 'response' })
-      .pipe(map((res) => res.body ?? []));
+  recipesGetAll(title?: string, ingredients?: string[]): Observable<Recipe[]> {
+    let params = new HttpParams();
+    if (typeof title === 'string' && title.trim()) {
+      params = params.set('title', title.trim());
+    }
+    if (ingredients?.length) {
+      ingredients.forEach((ing) => {
+        const t = ing?.trim();
+        if (t) params = params.append('ingredients', t);
+      });
+    }
+    const options = params.keys().length ? { params, observe: 'response' as const } : { observe: 'response' as const };
+    return this.http.get<Recipe[]>('recipes', options).pipe(map((res) => res.body ?? []));
   }
 
   /**

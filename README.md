@@ -22,6 +22,22 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
+## Docker
+
+Build and run with Docker Compose (backend must be reachable as `api:3000`):
+
+```bash
+docker compose up --build
+```
+
+For **Render** (or any host where the API is a separate service), point nginx at your API URL at **build time**:
+
+- In Render Dashboard: **Environment** → add **Build-time** variable:
+  - `BACKEND_URL` = `https://homepub.onrender.com` (or your API’s base URL, no trailing slash)
+- Build command stays the default (Render runs `docker build`); the Dockerfile uses `BACKEND_URL` to rewrite the API proxy in `nginx.conf`.
+
+So you don’t change the nginx file by hand: the same `nginx.conf` and Dockerfile work for both local Compose and Render; only the build arg differs.
+
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

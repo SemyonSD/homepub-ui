@@ -30,13 +30,14 @@ Build and run with Docker Compose (backend must be reachable as `api:3000`):
 docker compose up --build
 ```
 
-For **Render** (or any host where the API is a separate service), point nginx at your API URL at **build time**:
+For **Render** (or any host where the API is a separate service), set these at **build time**:
 
-- In Render Dashboard: **Environment** → add **Build-time** variable:
+- In Render Dashboard: **Environment** → add **Build-time** variables:
   - `BACKEND_URL` = `https://homepub.onrender.com` (or your API’s base URL, no trailing slash)
-- Build command stays the default (Render runs `docker build`); the Dockerfile uses `BACKEND_URL` to rewrite the API proxy in `nginx.conf`.
+  - `APP_ORIGIN` = `https://your-frontend.onrender.com` (the public URL of this UI — required for OAuth redirect; no trailing slash)
+- Build command stays the default (Render runs `docker build`); the Dockerfile uses these to set the API proxy and the OAuth `redirect_uri`.
 
-So you don’t change the nginx file by hand: the same `nginx.conf` and Dockerfile work for both local Compose and Render; only the build arg differs.
+So you don’t change `nginx.conf` or `environment.docker.ts` by hand: the same files work for both local Compose and Render; only the build args differ.
 
 ## Further help
 

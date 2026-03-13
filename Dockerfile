@@ -7,6 +7,11 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+# OAuth redirect URI: default localhost for Compose; for Render pass e.g. --build-arg APP_ORIGIN=https://your-app.onrender.com
+ARG APP_ORIGIN=http://localhost:4200
+RUN sed -i "s|__APP_ORIGIN__|$APP_ORIGIN|g" src/environments/environment.docker.ts
+
 RUN npm run build -- --configuration=docker
 
 # Production stage: serve with nginx

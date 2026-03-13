@@ -1,7 +1,7 @@
 @use "palettes" as p;
 
 // ─── Choose palette (amber | teal | coral | vibrant | warm | pastel | sunset | marigold | slate | emerald) ─
-$active-palette: p.$palette-irish-pub;
+$active-palette: p.$palette-sunset;
 
 $primary: map-get($active-palette, primary);
 $primary-hover: map-get($active-palette, primary-hover);

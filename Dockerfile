@@ -7,24 +7,21 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
-
-# OAuth redirect URI: default localhost for Compose; for Render pass e.g. --build-arg APP_ORIGIN=https://your-app.onrender.com
-ARG APP_ORIGIN=http://localhost:4200
-RUN sed -i "s|__APP_ORIGIN__|$APP_ORIGIN|g" src/environments/environment.docker.ts
-
 RUN npm run build -- --configuration=docker
 
 # Production stage: serve with nginx
 FROM nginx:alpine
+RUN apk add --no-cache gettext
 
 COPY --from=builder /app/dist/home-pubv16 /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+RUN rm -f /etc/nginx/conf.d/default.conf
 
-# For Render (or any host where API is not at api:3000), pass at build time:
-#   docker build --build-arg BACKEND_URL=https://homepub.onrender.com ...
-ARG BACKEND_URL=http://api:3000
-RUN sed -i "s|http://api:3000|$BACKEND_URL|g" /etc/nginx/conf.d/default.conf
+ENV PORT=80
+ENV API_UPSTREAM=http://api:3000
 
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/entrypoint.sh"]

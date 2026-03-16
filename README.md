@@ -33,9 +33,10 @@ docker compose up --build
 For **Render** (or any host where the API is a separate service), set these at **build time**:
 
 - In Render Dashboard: **Environment** → add **Build-time** variables:
-  - `BACKEND_URL` = `https://homepub.onrender.com` (or your API’s base URL, no trailing slash)
-  - `APP_ORIGIN` = `https://your-frontend.onrender.com` (the public URL of this UI — required for OAuth redirect; no trailing slash)
-- Ensure the build passes them as Docker build args (e.g. custom build command: `docker build --build-arg BACKEND_URL=$BACKEND_URL --build-arg APP_ORIGIN=$APP_ORIGIN -t app .`).
+  - `BACKEND_URL` = `https://homepub.onrender.com` (API base URL, no trailing slash)
+  - `BACKEND_HOST` = `homepub.onrender.com` (backend hostname only; for HTTPS and Host header)
+  - `APP_ORIGIN` = `https://your-frontend.onrender.com` (UI public URL for OAuth redirect; no trailing slash)
+- Ensure the build passes them as Docker build args (e.g. build command: `docker build --build-arg BACKEND_URL=$BACKEND_URL --build-arg BACKEND_HOST=$BACKEND_HOST --build-arg APP_ORIGIN=$APP_ORIGIN -t app .`).
 
 One image works for Compose and Render; only the build args differ.
 
